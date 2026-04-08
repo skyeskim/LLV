@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legacies Learning Village</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --warm-cream: #F5EFE6;
+    --deep-walnut: #2C1F14;
+    --warm-oak: #8B5E3C;
+    --sage: #7A8C6E;
+    --sage-light: #A8B99A;
+    --moss: #4A5C3F;
+    --terracotta: #C17B5C;
+    --gold: #C9A84C;
+    --linen: #EDE3D5;
+    --charcoal: #3A3228;
+    --fog: #D4CFC8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-walnut);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--warm-cream);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-building {
+    position: absolute;
+    inset: 0;
+    background:
+      /* Sky gradient */
+      linear-gradient(180deg, #B8C8D5 0%, #D4C9B8 40%, #C4A882 65%, #2C1F14 100%);
+  }
+
+  /* Three-story building SVG scene */
+  .building-scene {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1100px;
+    height: 90%;
+  }
+
+  /* Atmospheric effects */
+  .hero-fog {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(0deg, var(--deep-walnut) 0%, transparent 100%);
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    padding: 0 6vw 6vh;
+  }
+
+  .tagline-pre {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage-light);
+  }
+
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--fog);
+    margin-top: 1.5rem;
+    max-width: 400px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--sage-light); }
+
+  /* ── FLOOR NAV ── */
+  .floor-nav {
+    background: var(--charcoal);
+    border-top: 1px solid rgba(201,168,76,0.3);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .floor-nav::-webkit-scrollbar { display: none; }
+
+  .floor-btn {
+    flex: 1;
+    min-width: 160px;
+    padding: 1.4rem 2rem;
+    background: none;
+    border: none;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    color: var(--fog);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+  }
+
+  .floor-btn .floor-num {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--warm-cream);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+    transition: color 0.3s;
+  }
+
+  .floor-btn:hover, .floor-btn.active {
+    background: rgba(201,168,76,0.08);
+    color: var(--warm-cream);
+  }
+  .floor-btn:hover .floor-num, .floor-btn.active .floor-num {
+    color: var(--gold);
+  }
+
+  /* ── FLOOR 1: MONTESSORI ── */
+  .floor-montessori {
+    background: var(--warm-cream);
+    color: var(--deep-walnut);
+    overflow: hidden;
+  }
+
+  .montessori-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 85vh;
+  }
+
+  .montessori-visual {
+    position: relative;
+    overflow: hidden;
+    background: #D4C3A8;
+  }
+
+  /* Architectural interior illustration */
+  .interior-svg-wrap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .montessori-text {
+    padding: 8vh 6vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .montessori-text .section-title { color: var(--deep-walnut); }
+  .montessori-text .section-label { color: var(--warm-oak); }
+
+  .floor-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #5C4A35;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--charcoal);
+    line-height: 1.5;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--warm-oak);
+    margin-top: 0.6em;
+    flex-shrink: 0;
+  }
+
+  .specs-row {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(44,31,20,0.12);
+  }
+
+  .spec {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .spec-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--deep-walnut);
+    line-height: 1;
+  }
+
+  .spec-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-oak);
+    margin-top: 0.25rem;
+  }
+
+  /* ── VAULTED CEILING DETAIL ── */
+  .vaulted-section {
+    background: var(--linen);
+    color: var(--deep-walnut);
+    padding: 8vh 0;
+    overflow: hidden;
+  }
+
+  .vaulted-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6vw;
+    padding: 0 6vw;
+    align-items: center;
+  }
+
+  .ceiling-detail-svg {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+
+  .ceiling-text .section-title { color: var(--deep-walnut); }
+  .ceiling-text .section-label { color: var(--warm-oak); }
+
+  .quote-pull {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--moss);
+    line-height: 1.4;
+    border-left: 2px solid var(--sage);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  /* ── FLOOR 2: CO-WORK ── */
+  .floor-cowork {
+    background: var(--deep-walnut);
+    color: var(--warm-cream);
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cowork-visual {
+    position: relative;
+    background: #1E160E;
+    overflow: hidden;
+  }
+
+  .cowork-text {
+    padding: 8vh 6vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cowork-text .section-title em { color: var(--terracotta); }
+  .cowork-text .section-label { color: var(--terracotta); }
+  .cowork-text .floor-desc { color: var(--fog); }
+
+  .amenity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .amenity-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 1.2rem;
+    transition: background 0.3s;
+  }
+
+  .amenity-card:hover {
+    background: rgba(255,255,255,0.07);
+  }
+
+  .amenity-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .amenity-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--warm-cream);
+    margin-bottom: 0.25rem;
+  }
+
+  .amenity-desc {
+    font-size: 0.72rem;
+    color: var(--fog);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* ── FLOOR 3: BUSINESS LEASES ── */
+  .floor-lease {
+    background: var(--sage);
+    color: var(--deep-walnut);
+  }
+
+  .lease-header {
+    padding: 8vh 6vw 4vh;
+    border-bottom: 1px solid rgba(44,31,20,0.15);
+  }
+
+  .lease-header .section-title { color: var(--deep-walnut); }
+
+  .lease-header p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--charcoal);
+    max-width: 600px;
+    font-weight: 300;
+    margin-top: 1rem;
+  }
+
+  .lease-suites {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: none;
+  }
+
+  .suite-card {
+    padding: 4vh 4vw;
+    border-right: 1px solid rgba(44,31,20,0.12);
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .suite-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--deep-walnut);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .suite-card:hover::before { transform: scaleX(1); }
+  .suite-card:hover { background: rgba(255,255,255,0.12); }
+
+  .suite-type {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 0.5rem;
+  }
+
+  .suite-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--deep-walnut);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .suite-sqft {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+  }
+
+  .suite-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .suite-features li {
+    font-size: 0.78rem;
+    color: var(--charcoal);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .suite-features li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--moss);
+    font-size: 0.65rem;
+  }
+
+  /* ── LIBRARY / COMMUNITY ── */
+  .library-section {
+    background: var(--charcoal);
+    color: var(--warm-cream);
+    padding: 8vh 6vw;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 6vw;
+    align-items: center;
+  }
+
+  .library-text .section-title em { color: var(--gold); }
+
+  .library-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-block {
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 1.5rem;
+    border-radius: 4px;
+  }
+
+  .stat-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-unit {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  .stat-desc {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-top: 0.5rem;
+  }
+
+  /* ── CLOSING MANIFESTO ── */
+  .manifesto {
+    background: var(--warm-oak);
+    color: var(--warm-cream);
+    padding: 10vh 6vw;
+    text-align: center;
+  }
+
+  .manifesto-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.2;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+  }
+
+  .manifesto-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,239,230,0.6);
+    font-weight: 400;
+  }
+
+  .founders-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .founder-chip {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,239,230,0.55);
+    border: 1px solid rgba(245,239,230,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 2px;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── FLOOR SWITCHER ── */
+  .floor-switcher {
+    background: #1A1108;
+    padding: 6vh 0 0;
+    overflow: hidden;
+  }
+
+  .switcher-header {
+    padding: 0 6vw 4vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .switcher-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    color: var(--warm-cream);
+    line-height: 1.1;
+  }
+
+  .switcher-header h2 em { font-style: italic; color: var(--gold); }
+
+  .switcher-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .sw-tab {
+    padding: 0.7rem 1.4rem;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(201,168,76,0.2);
+    color: var(--fog);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .sw-tab:last-child { border-right: none; }
+  .sw-tab.active {
+    background: var(--gold);
+    color: var(--deep-walnut);
+  }
+  .sw-tab:not(.active):hover { background: rgba(201,168,76,0.1); color: var(--warm-cream); }
+
+  /* Main switcher stage */
+  .switcher-stage {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    min-height: 520px;
+    overflow: hidden;
+  }
+
+  /* Building shell — always visible */
+  .building-shell {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* Floor highlight overlays */
+  .floor-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    pointer-events: none;
+  }
+  .floor-overlay.active { opacity: 1; }
+
+  /* Info panel that slides in from right */
+  .floor-info-panel {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) translateX(110%);
+    width: min(380px, 85vw);
+    background: rgba(26, 17, 8, 0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    padding: 2.5rem;
+    z-index: 10;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .floor-info-panel.visible {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .panel-floor-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    opacity: 0.25;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  .panel-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .panel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--warm-cream);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .panel-title em { font-style: italic; color: var(--sage-light); }
+
+  .panel-desc {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .panel-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .panel-pill {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px;
+    color: var(--fog);
+    white-space: nowrap;
+  }
+
+  /* Hotspot pulse dots on the building */
+  .hotspot {
+    position: absolute;
+    z-index: 5;
+    cursor: pointer;
+  }
+
+  .hotspot-ring {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.3s;
+  }
+
+  .hotspot:hover .hotspot-ring { transform: scale(1.15); }
+
+  .hotspot-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: hotspotPulse 2.5s ease-out infinite;
+  }
+
+  .hotspot-ring::after {
+    content: '';
+    position: absolute;
+    inset: -16px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: hotspotPulse 2.5s ease-out 0.6s infinite;
+  }
+
+  @keyframes hotspotPulse {
+    0% { opacity: 0.6; transform: scale(0.8); }
+    100% { opacity: 0; transform: scale(1.5); }
+  }
+
+  .hotspot-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .hotspot.active .hotspot-ring {
+    background: rgba(201,168,76,0.15);
+  }
+  .hotspot.active .hotspot-dot {
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  /* Floor highlight glow bands */
+  .glow-band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Progress indicator bottom */
+  .switcher-progress {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 0 3rem;
+    background: #1A1108;
+  }
+
+  .prog-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.2);
+    transition: all 0.4s;
+    cursor: pointer;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .prog-dot.active {
+    background: var(--gold);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px rgba(201,168,76,0.5);
+  }
+
+  /* Auto-cycle indicator */
+  .auto-cycle-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--gold);
+    width: 0%;
+    transition: width 0.1s linear;
+    z-index: 20;
+    opacity: 0.6;
+  }
+
+  /* ── TOP NAV ── */
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #000;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+
+  .top-nav.scrolled {
+    background: rgba(0,0,0,0.97);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  }
+
+  .top-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6vw;
+    height: 58px;
+  }
+
+  .top-nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .top-nav-links {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .top-nav-links button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+    transition: color 0.25s, background 0.25s;
+  }
+
+  .top-nav-links button:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+  }
+
+  /* Push hero below fixed nav */
+  .hero { padding-top: 58px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .montessori-hero,
+    .floor-cowork,
+    .vaulted-inner,
+    .library-section { grid-template-columns: 1fr; }
+    .montessori-visual, .cowork-visual { height: 50vw; }
+    .lease-suites { grid-template-columns: 1fr; }
+    .suite-card { border-right: none; border-bottom: 1px solid rgba(44,31,20,0.12); }
+    .amenity-grid { grid-template-columns: 1fr; }
+    .library-stats { grid-template-columns: 1fr 1fr; }
+    .specs-row { gap: 1.5rem; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="top-nav" id="top-nav">
+  <div class="top-nav-inner">
+    <span class="top-nav-logo">Legacies Learning Villages</span>
+    <div class="top-nav-links">
+      <button onclick="navScrollTo('montessori')">School</button>
+      <button onclick="navScrollTo('cowork')">Co-Work</button>
+      <button onclick="navScrollTo('lease')">Suites</button>
+      <button onclick="navScrollTo('floor-switcher')">Tour</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-building">
+    <!-- Sky / ambient -->
+  </div>
+
+  <!-- Building architectural SVG -->
+  <svg class="building-scene" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background trees / landscape -->
+    <g opacity="0.4">
+      <rect x="0" y="450" width="1100" height="250" fill="#1A120A"/>
+      <!-- Trees left cluster -->
+      <ellipse cx="80" cy="420" rx="55" ry="75" fill="#3A5230"/>
+      <ellipse cx="80" cy="430" rx="40" ry="55" fill="#4A6640"/>
+      <rect x="72" y="480" width="16" height="60" fill="#2C1F14"/>
+      <ellipse cx="150" cy="435" rx="45" ry="65" fill="#3D5835"/>
+      <rect x="143" y="485" width="14" height="55" fill="#2C1F14"/>
+      <ellipse cx="40" cy="440" rx="38" ry="55" fill="#2E4826"/>
+      <rect x="33" y="488" width="12" height="50" fill="#2C1F14"/>
+      <!-- Trees right cluster -->
+      <ellipse cx="1020" cy="415" rx="55" ry="80" fill="#3A5230"/>
+      <ellipse cx="1020" cy="430" rx="40" ry="58" fill="#4A6640"/>
+      <rect x="1012" y="478" width="16" height="62" fill="#2C1F14"/>
+      <ellipse cx="1065" cy="435" rx="42" ry="60" fill="#3D5835"/>
+      <rect x="1058" y="485" width="14" height="55" fill="#2C1F14"/>
+      <ellipse cx="970" cy="440" rx="38" ry="58" fill="#2E4826"/>
+      <rect x="963" y="488" width="12" height="50" fill="#2C1F14"/>
+    </g>
+
+    <!-- GROUND -->
+    <rect x="0" y="550" width="1100" height="150" fill="#1A120A"/>
+    <rect x="0" y="548" width="1100" height="6" fill="#2A1C10"/>
+
+    <!-- MAIN BUILDING BODY -->
+    <!-- Foundation / base plinth -->
+    <rect x="180" y="545" width="740" height="20" fill="#3A2810" rx="2"/>
+
+    <!-- FLOOR 1 — Montessori / vaulted base -->
+    <!-- Walls -->
+    <rect x="200" y="350" width="700" height="200" fill="#C4A882"/>
+    <!-- Side darker panels -->
+    <rect x="200" y="350" width="30" height="200" fill="#B09470"/>
+    <rect x="870" y="350" width="30" height="200" fill="#B09470"/>
+
+    <!-- Tall vaulted glass windows — floor 1 -->
+    <!-- Left bank of windows -->
+    <rect x="245" y="358" width="90" height="175" fill="#A8C4D4" rx="3"/>
+    <rect x="245" y="358" width="90" height="175" fill="url(#glassGrad1)" rx="3"/>
+    <!-- Window muntins -->
+    <line x1="290" y1="358" x2="290" y2="533" stroke="#C4A882" stroke-width="2"/>
+    <line x1="245" y1="440" x2="335" y2="440" stroke="#C4A882" stroke-width="1.5"/>
+    <!-- Arch top -->
+    <path d="M245,375 Q290,350 335,375" fill="none" stroke="#C4A882" stroke-width="2"/>
+
+    <rect x="350" y="358" width="90" height="175" fill="#A8C4D4" rx="3"/>
+    <rect x="350" y="358" width="90" height="175" fill="url(#glassGrad1)" rx="3"/>
+    <line x1="395" y1="358" x2="395" y2="533" stroke="#C4A882" stroke-width="2"/>
+    <line x1="350" y1="440" x2="440" y2="440" stroke="#C4A882" stroke-width="1.5"/>
+    <path d="M350,375 Q395,350 440,375" fill="none" stroke="#C4A882" stroke-width="2"/>
+
+    <!-- Center double-door entry -->
+    <rect x="490" y="400" width="120" height="150" fill="#8B6940" rx="2"/>
+    <rect x="495" y="405" width="52" height="140" fill="#A8C4D4" rx="1"/>
+    <rect x="553" y="405" width="52" height="140" fill="#A8C4D4" rx="1"/>
+    <!-- Door arch -->
+    <path d="M490,415 Q550,390 610,415" fill="#7A5C30" stroke="#6B5025" stroke-width="1"/>
+    <!-- Door handle -->
+    <circle cx="543" cy="490" r="4" fill="#C9A84C"/>
+    <circle cx="563" cy="490" r="4" fill="#C9A84C"/>
+    <!-- Entry stairs -->
+    <rect x="475" y="540" width="150" height="8" fill="#B09470" rx="1"/>
+    <rect x="465" y="545" width="170" height="6" fill="#A08460"/>
+
+    <!-- Right bank windows floor 1 -->
+    <rect x="660" y="358" width="90" height="175" fill="#A8C4D4" rx="3"/>
+    <rect x="660" y="358" width="90" height="175" fill="url(#glassGrad1)" rx="3"/>
+    <line x1="705" y1="358" x2="705" y2="533" stroke="#C4A882" stroke-width="2"/>
+    <line x1="660" y1="440" x2="750" y2="440" stroke="#C4A882" stroke-width="1.5"/>
+    <path d="M660,375 Q705,350 750,375" fill="none" stroke="#C4A882" stroke-width="2"/>
+
+    <rect x="765" y="358" width="90" height="175" fill="#A8C4D4" rx="3"/>
+    <rect x="765" y="358" width="90" height="175" fill="url(#glassGrad1)" rx="3"/>
+    <line x1="810" y1="358" x2="810" y2="533" stroke="#C4A882" stroke-width="2"/>
+    <line x1="765" y1="440" x2="855" y2="440" stroke="#C4A882" stroke-width="1.5"/>
+    <path d="M765,375 Q810,350 855,375" fill="none" stroke="#C4A882" stroke-width="2"/>
+
+    <!-- Floor 1 cornice -->
+    <rect x="195" y="345" width="710" height="12" fill="#8B6940" rx="1"/>
+    <rect x="190" y="342" width="720" height="6" fill="#7A5C30"/>
+
+    <!-- FLOOR 2 — Co-work for mothers -->
+    <rect x="215" y="210" width="670" height="138" fill="#D4C3A8"/>
+    <rect x="215" y="210" width="25" height="138" fill="#C4B398"/>
+    <rect x="860" y="210" width="25" height="138" fill="#C4B398"/>
+
+    <!-- Floor 2 windows — wider, more horizontal -->
+    <rect x="250" y="220" width="110" height="95" fill="#B8D4C0" rx="2"/>
+    <rect x="250" y="220" width="110" height="95" fill="url(#glassGrad2)" rx="2"/>
+    <line x1="305" y1="220" x2="305" y2="315" stroke="#C4B398" stroke-width="1.5"/>
+    <line x1="250" y1="265" x2="360" y2="265" stroke="#C4B398" stroke-width="1"/>
+
+    <rect x="375" y="220" width="110" height="95" fill="#B8D4C0" rx="2"/>
+    <rect x="375" y="220" width="110" height="95" fill="url(#glassGrad2)" rx="2"/>
+    <line x1="430" y1="220" x2="430" y2="315" stroke="#C4B398" stroke-width="1.5"/>
+    <line x1="375" y1="265" x2="485" y2="265" stroke="#C4B398" stroke-width="1"/>
+
+    <!-- Center window floor 2 — with balcony detail -->
+    <rect x="500" y="218" width="100" height="97" fill="#B8D4C0" rx="2"/>
+    <rect x="500" y="218" width="100" height="97" fill="url(#glassGrad2)" rx="2"/>
+    <!-- Juliet balcony railing -->
+    <rect x="495" y="312" width="110" height="6" fill="#8B6940"/>
+    <line x1="505" y1="312" x2="505" y2="340" stroke="#8B6940" stroke-width="3"/>
+    <line x1="520" y1="312" x2="520" y2="340" stroke="#8B6940" stroke-width="2"/>
+    <line x1="535" y1="312" x2="535" y2="340" stroke="#8B6940" stroke-width="2"/>
+    <line x1="550" y1="312" x2="550" y2="340" stroke="#8B6940" stroke-width="2"/>
+    <line x1="565" y1="312" x2="565" y2="340" stroke="#8B6940" stroke-width="2"/>
+    <line x1="580" y1="312" x2="580" y2="340" stroke="#8B6940" stroke-width="2"/>
+    <line x1="595" y1="312" x2="595" y2="340" stroke="#8B6940" stroke-width="3"/>
+    <!-- Hanging plants from balcony -->
+    <ellipse cx="520" cy="336" rx="8" ry="5" fill="#4A6640" opacity="0.8"/>
+    <ellipse cx="555" cy="338" rx="9" ry="6" fill="#3D5835" opacity="0.8"/>
+    <ellipse cx="582" cy="334" rx="7" ry="5" fill="#4A6640" opacity="0.8"/>
+
+    <rect x="615" y="220" width="110" height="95" fill="#B8D4C0" rx="2"/>
+    <rect x="615" y="220" width="110" height="95" fill="url(#glassGrad2)" rx="2"/>
+    <line x1="670" y1="220" x2="670" y2="315" stroke="#C4B398" stroke-width="1.5"/>
+    <line x1="615" y1="265" x2="725" y2="265" stroke="#C4B398" stroke-width="1"/>
+
+    <rect x="740" y="220" width="110" height="95" fill="#B8D4C0" rx="2"/>
+    <rect x="740" y="220" width="110" height="95" fill="url(#glassGrad2)" rx="2"/>
+    <line x1="795" y1="220" x2="795" y2="315" stroke="#C4B398" stroke-width="1.5"/>
+    <line x1="740" y1="265" x2="850" y2="265" stroke="#C4B398" stroke-width="1"/>
+
+    <!-- Floor 2 cornice -->
+    <rect x="210" y="204" width="680" height="10" fill="#8B6940"/>
+    <rect x="205" y="200" width="690" height="6" fill="#7A5C30"/>
+
+    <!-- FLOOR 3 — Business leases / spas -->
+    <rect x="235" y="90" width="630" height="115" fill="#E8D8C0"/>
+    <rect x="235" y="90" width="20" height="115" fill="#D8C8B0"/>
+    <rect x="845" y="90" width="20" height="115" fill="#D8C8B0"/>
+
+    <!-- Floor 3 windows — smaller, elegant -->
+    <rect x="268" y="102" width="70" height="70" fill="#C8D8E4" rx="2"/>
+    <rect x="268" y="102" width="70" height="70" fill="url(#glassGrad3)" rx="2"/>
+    <line x1="303" y1="102" x2="303" y2="172" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="268" y1="135" x2="338" y2="135" stroke="#D8C8B0" stroke-width="0.8"/>
+
+    <rect x="354" y="102" width="70" height="70" fill="#C8D8E4" rx="2"/>
+    <rect x="354" y="102" width="70" height="70" fill="url(#glassGrad3)" rx="2"/>
+    <line x1="389" y1="102" x2="389" y2="172" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="354" y1="135" x2="424" y2="135" stroke="#D8C8B0" stroke-width="0.8"/>
+
+    <!-- Center skylight feature floor 3 -->
+    <rect x="445" y="96" width="210" height="80" fill="#C8D8E4" rx="3"/>
+    <rect x="445" y="96" width="210" height="80" fill="url(#glassGrad3)" rx="3"/>
+    <!-- Grid pattern for skylight -->
+    <line x1="480" y1="96" x2="480" y2="176" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="515" y1="96" x2="515" y2="176" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="550" y1="96" x2="550" y2="176" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="585" y1="96" x2="585" y2="176" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="620" y1="96" x2="620" y2="176" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="445" y1="125" x2="655" y2="125" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="445" y1="150" x2="655" y2="150" stroke="#D8C8B0" stroke-width="1"/>
+
+    <rect x="671" y="102" width="70" height="70" fill="#C8D8E4" rx="2"/>
+    <rect x="671" y="102" width="70" height="70" fill="url(#glassGrad3)" rx="2"/>
+    <line x1="706" y1="102" x2="706" y2="172" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="671" y1="135" x2="741" y2="135" stroke="#D8C8B0" stroke-width="0.8"/>
+
+    <rect x="757" y="102" width="70" height="70" fill="#C8D8E4" rx="2"/>
+    <rect x="757" y="102" width="70" height="70" fill="url(#glassGrad3)" rx="2"/>
+    <line x1="792" y1="102" x2="792" y2="172" stroke="#D8C8B0" stroke-width="1"/>
+    <line x1="757" y1="135" x2="827" y2="135" stroke="#D8C8B0" stroke-width="0.8"/>
+
+    <!-- Floor 3 cornice -->
+    <rect x="228" y="84" width="644" height="10" fill="#8B6940"/>
+    <rect x="222" y="80" width="656" height="6" fill="#7A5C30"/>
+
+    <!-- ROOF / PARAPET -->
+    <rect x="245" y="55" width="610" height="30" fill="#D4C3A8" rx="2"/>
+    <!-- Parapet details -->
+    <rect x="245" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="305" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="365" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="425" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="485" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="545" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="605" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="665" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="725" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="785" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+    <rect x="815" y="52" width="40" height="35" fill="#C4B398" rx="1"/>
+
+    <!-- Roof top greenery -->
+    <ellipse cx="300" cy="52" rx="18" ry="12" fill="#4A6640" opacity="0.9"/>
+    <ellipse cx="450" cy="50" rx="22" ry="14" fill="#3A5230" opacity="0.9"/>
+    <ellipse cx="600" cy="52" rx="18" ry="11" fill="#4A6640" opacity="0.9"/>
+    <ellipse cx="750" cy="50" rx="20" ry="13" fill="#3D5835" opacity="0.9"/>
+
+    <!-- Foreground ground elements -->
+    <!-- Pathway -->
+    <rect x="480" y="548" width="140" height="52" fill="#C4A882" opacity="0.6"/>
+    <!-- Ground plants -->
+    <ellipse cx="215" cy="548" rx="35" ry="18" fill="#3D5835" opacity="0.7"/>
+    <ellipse cx="195" cy="545" rx="25" ry="14" fill="#4A6640" opacity="0.8"/>
+    <ellipse cx="885" cy="548" rx="35" ry="18" fill="#3D5835" opacity="0.7"/>
+    <ellipse cx="905" cy="545" rx="25" ry="14" fill="#4A6640" opacity="0.8"/>
+
+    <!-- Floor labels -->
+    <text x="152" y="460" font-family="'DM Sans', sans-serif" font-size="10" fill="#C9A84C" letter-spacing="2" text-anchor="end" opacity="0.8">FLOOR 1</text>
+    <line x1="155" y1="458" x2="195" y2="448" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/>
+    <text x="152" y="275" font-family="'DM Sans', sans-serif" font-size="10" fill="#C9A84C" letter-spacing="2" text-anchor="end" opacity="0.8">FLOOR 2</text>
+    <line x1="155" y1="273" x2="210" y2="280" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/>
+    <text x="152" y="140" font-family="'DM Sans', sans-serif" font-size="10" fill="#C9A84C" letter-spacing="2" text-anchor="end" opacity="0.8">FLOOR 3</text>
+    <line x1="155" y1="138" x2="230" y2="135" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/>
+
+    <defs>
+      <linearGradient id="glassGrad1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#D4EAF5" stop-opacity="0.7"/>
+        <stop offset="40%" stop-color="#A8C4D4" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#7AAAB8" stop-opacity="0.6"/>
+      </linearGradient>
+      <linearGradient id="glassGrad2" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#D4EAE0" stop-opacity="0.6"/>
+        <stop offset="50%" stop-color="#B8D4C0" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#8AB4A0" stop-opacity="0.5"/>
+      </linearGradient>
+      <linearGradient id="glassGrad3" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#E4F0F8" stop-opacity="0.7"/>
+        <stop offset="100%" stop-color="#C0D4E4" stop-opacity="0.5"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="hero-fog"></div>
+
+  <div class="hero-content">
+    <p class="tagline-pre">Legacies Learning Village — A Living Community</p>
+    <h1 class="hero-title">Where <em>roots</em><br>grow up.</h1>
+    <p class="hero-sub">Three floors. One vision. A place where children learn, mothers thrive, and small businesses bloom — all under one roof.</p>
+  </div>
+</section>
+
+<!-- ── FLOOR NAV ── -->
+<nav class="floor-nav">
+  <button class="floor-btn active" onclick="navScrollTo('montessori')">
+    <span class="floor-num">01</span>
+    Montessori Village
+  </button>
+  <button class="floor-btn" onclick="navScrollTo('vaulted')">
+    <span class="floor-num">↑</span>
+    Vaulted Architecture
+  </button>
+  <button class="floor-btn" onclick="navScrollTo('cowork')">
+    <span class="floor-num">02</span>
+    Mother's Co-Work
+  </button>
+  <button class="floor-btn" onclick="navScrollTo('lease')">
+    <span class="floor-num">03</span>
+    Business Suites
+  </button>
+  <button class="floor-btn" onclick="navScrollTo('library')">
+    <span class="floor-num">+</span>
+    Library & Community
+  </button>
+</nav>
+
+<!-- ── FLOOR 1: MONTESSORI ── -->
+<section class="floor-montessori" id="montessori">
+  <div class="montessori-hero">
+    <!-- Interior visual -->
+    <div class="montessori-visual">
+      <svg class="interior-svg-wrap" viewBox="0 0 600 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Floor -->
+        <rect x="0" y="580" width="600" height="120" fill="#C4A070"/>
+        <!-- Wood floor planks -->
+        <line x1="0" y1="590" x2="600" y2="590" stroke="#B09060" stroke-width="1.5"/>
+        <line x1="0" y1="605" x2="600" y2="605" stroke="#B09060" stroke-width="1.5"/>
+        <line x1="0" y1="620" x2="600" y2="620" stroke="#B09060" stroke-width="1.5"/>
+        <line x1="0" y1="635" x2="600" y2="635" stroke="#B09060" stroke-width="1.5"/>
+        <line x1="100" y1="580" x2="80" y2="700" stroke="#B09060" stroke-width="1"/>
+        <line x1="200" y1="580" x2="180" y2="700" stroke="#B09060" stroke-width="1"/>
+        <line x1="300" y1="580" x2="280" y2="700" stroke="#B09060" stroke-width="1"/>
+        <line x1="400" y1="580" x2="380" y2="700" stroke="#B09060" stroke-width="1"/>
+        <line x1="500" y1="580" x2="480" y2="700" stroke="#B09060" stroke-width="1"/>
+
+        <!-- Walls -->
+        <rect x="0" y="0" width="600" height="585" fill="#E8DDD0"/>
+
+        <!-- Vaulted ceiling arch -->
+        <path d="M0,250 Q300,0 600,250" fill="#F0E8DC" stroke="#D4C4B0" stroke-width="2"/>
+        <!-- Ceiling beams -->
+        <path d="M60,200 Q300,40 540,200" fill="none" stroke="#8B6940" stroke-width="8" opacity="0.6"/>
+        <path d="M120,165 Q300,20 480,165" fill="none" stroke="#8B6940" stroke-width="6" opacity="0.4"/>
+        <path d="M180,145 Q300,35 420,145" fill="none" stroke="#8B6940" stroke-width="5" opacity="0.3"/>
+
+        <!-- Skylights in ceiling -->
+        <ellipse cx="200" cy="160" rx="60" ry="30" fill="#C8E0F0" opacity="0.7"/>
+        <ellipse cx="400" cy="160" rx="60" ry="30" fill="#C8E0F0" opacity="0.7"/>
+        <!-- Light beams from skylights -->
+        <polygon points="140,160 260,160 290,580 110,580" fill="url(#lightBeam)" opacity="0.15"/>
+        <polygon points="340,160 460,160 490,580 310,580" fill="url(#lightBeam)" opacity="0.15"/>
+
+        <!-- Large windows left & right -->
+        <rect x="0" y="280" width="110" height="300" fill="#A8C8D8" opacity="0.8"/>
+        <rect x="0" y="280" width="110" height="300" fill="url(#windowGrad)"/>
+        <line x1="55" y1="280" x2="55" y2="580" stroke="#C4A882" stroke-width="2"/>
+        <line x1="0" y1="420" x2="110" y2="420" stroke="#C4A882" stroke-width="1.5"/>
+
+        <rect x="490" y="280" width="110" height="300" fill="#A8C8D8" opacity="0.8"/>
+        <rect x="490" y="280" width="110" height="300" fill="url(#windowGrad)"/>
+        <line x1="545" y1="280" x2="545" y2="580" stroke="#C4A882" stroke-width="2"/>
+        <line x1="490" y1="420" x2="600" y2="420" stroke="#C4A882" stroke-width="1.5"/>
+
+        <!-- Wooden shelving unit left wall -->
+        <rect x="10" y="350" width="80" height="220" fill="#8B6030" opacity="0.3"/>
+        <!-- Books on shelf -->
+        <rect x="15" y="360" width="8" height="40" fill="#C17B5C" opacity="0.8"/>
+        <rect x="25" y="365" width="6" height="35" fill="#7A8C6E" opacity="0.8"/>
+        <rect x="33" y="358" width="9" height="42" fill="#C9A84C" opacity="0.8"/>
+        <rect x="44" y="362" width="7" height="38" fill="#A8C4D4" opacity="0.8"/>
+        <rect x="53" y="356" width="8" height="44" fill="#8B5E3C" opacity="0.8"/>
+        <rect x="63" y="364" width="6" height="36" fill="#4A5C3F" opacity="0.8"/>
+        <rect x="71" y="360" width="7" height="40" fill="#D4A870" opacity="0.8"/>
+
+        <!-- Montessori work table center -->
+        <rect x="180" y="510" width="240" height="15" fill="#A07840" rx="2"/>
+        <rect x="185" y="505" width="230" height="10" fill="#B08850" rx="1"/>
+        <!-- Table legs -->
+        <rect x="190" y="522" width="12" height="58" fill="#8B6030"/>
+        <rect x="398" y="522" width="12" height="58" fill="#8B6030"/>
+
+        <!-- Montessori materials on table -->
+        <rect x="200" y="490" width="30" height="18" fill="#C17B5C" opacity="0.9" rx="1"/>
+        <rect x="240" y="492" width="25" height="15" fill="#7A8C6E" opacity="0.9" rx="1"/>
+        <rect x="275" y="488" width="20" height="20" fill="#C9A84C" opacity="0.9" rx="1"/>
+        <rect x="305" y="493" width="28" height="14" fill="#A8C4D4" opacity="0.9" rx="1"/>
+        <rect x="345" y="490" width="22" height="18" fill="#C17B5C" opacity="0.7" rx="1"/>
+
+        <!-- Small child-height chairs -->
+        <rect x="210" y="540" width="40" height="5" fill="#8B6030" rx="1"/>
+        <rect x="215" y="545" width="8" height="35" fill="#8B6030"/>
+        <rect x="237" y="545" width="8" height="35" fill="#8B6030"/>
+        <rect x="215" y="555" width="30" height="3" fill="#A07840"/>
+
+        <rect x="345" y="540" width="40" height="5" fill="#8B6030" rx="1"/>
+        <rect x="350" y="545" width="8" height="35" fill="#8B6030"/>
+        <rect x="372" y="545" width="8" height="35" fill="#8B6030"/>
+        <rect x="350" y="555" width="30" height="3" fill="#A07840"/>
+
+        <!-- Hanging plants from ceiling -->
+        <line x1="250" y1="0" x2="250" y2="90" stroke="#4A3820" stroke-width="1.5"/>
+        <ellipse cx="250" cy="100" rx="28" ry="18" fill="#4A6640"/>
+        <ellipse cx="238" cy="108" rx="15" ry="10" fill="#3D5835"/>
+        <ellipse cx="262" cy="110" rx="13" ry="9" fill="#5A7650"/>
+
+        <line x1="350" y1="0" x2="350" y2="80" stroke="#4A3820" stroke-width="1.5"/>
+        <ellipse cx="350" cy="92" rx="24" ry="15" fill="#3D5835"/>
+        <ellipse cx="340" cy="100" rx="14" ry="9" fill="#4A6640"/>
+
+        <line x1="150" y1="0" x2="150" y2="110" stroke="#4A3820" stroke-width="1.5"/>
+        <ellipse cx="150" cy="118" rx="20" ry="14" fill="#4A6640"/>
+
+        <line x1="450" y1="0" x2="450" y2="100" stroke="#4A3820" stroke-width="1.5"/>
+        <ellipse cx="450" cy="110" rx="22" ry="15" fill="#3D5835"/>
+
+        <!-- Corner plant floor -->
+        <ellipse cx="520" cy="560" rx="35" ry="22" fill="#3D5835" opacity="0.9"/>
+        <ellipse cx="508" cy="548" rx="18" ry="14" fill="#4A6640"/>
+        <ellipse cx="532" cy="545" rx="15" ry="13" fill="#5A7650"/>
+        <rect x="512" y="570" width="16" height="15" fill="#8B6040" rx="1"/>
+
+        <!-- Corner plant floor left -->
+        <ellipse cx="80" cy="560" rx="30" ry="20" fill="#4A6640" opacity="0.9"/>
+        <ellipse cx="68" cy="548" rx="16" ry="12" fill="#3D5835"/>
+        <rect x="72" y="568" width="14" height="15" fill="#8B6040" rx="1"/>
+
+        <!-- Floating label -->
+        <text x="300" y="440" font-family="'Cormorant Garamond', Georgia, serif" font-size="14" fill="#8B6040" text-anchor="middle" opacity="0.7" font-style="italic">Montessori Open Floor</text>
+
+        <defs>
+          <linearGradient id="lightBeam" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#FFF8E0" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="windowGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#C8E4F0" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#A8C8D8" stop-opacity="0.1"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Text content -->
+    <div class="montessori-text reveal">
+      <p class="section-label">Floor One — Ground Level</p>
+      <h2 class="section-title">The STEAM<br><em>Montessori</em><br>Village</h2>
+      <p class="floor-desc">High vaulted ceilings flood the open floor with natural light. Warm white oak, living walls of greenery, and purposeful Montessori materials create a place where children don't just go to school — they grow into themselves.</p>
+      <ul class="feature-list">
+        <li>Open-concept floor plan with flexible learning zones, no rigid rows or walls</li>
+        <li>Reclaimed wood shelving, soft rugs, and child-height natural oak work tables</li>
+        <li>Living plant walls and hanging greenery for biophilic immersion</li>
+        <li>STEAM maker studio integrated into the north wing</li>
+        <li>Arched casement windows and skylights — no artificial lighting needed by day</li>
+        <li>In-floor radiant heat beneath wide-plank hardwood flooring</li>
+      </ul>
+      <div class="specs-row">
+        <div class="spec">
+          <span class="spec-num">24'</span>
+          <span class="spec-label">Vaulted Ceiling</span>
+        </div>
+        <div class="spec">
+          <span class="spec-num">8,400</span>
+          <span class="spec-label">Sq. Ft. Floor</span>
+        </div>
+        <div class="spec">
+          <span class="spec-num">60+</span>
+          <span class="spec-label">Children Served</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VAULTED CEILING DETAIL ── -->
+<section class="vaulted-section" id="vaulted">
+  <div class="vaulted-inner">
+    <!-- Ceiling arch SVG -->
+    <svg class="ceiling-detail-svg reveal" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background room wall -->
+      <rect x="0" y="0" width="400" height="400" fill="#EDE3D5"/>
+      <!-- Arch -->
+      <path d="M20,350 Q200,20 380,350" fill="#F5EFE6" stroke="#C4A882" stroke-width="3"/>
+      <!-- Arch ribs -->
+      <path d="M60,340 Q200,60 340,340" fill="none" stroke="#8B6940" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100,330 Q200,90 300,330" fill="none" stroke="#8B6940" stroke-width="5" stroke-linecap="round"/>
+      <path d="M140,320 Q200,120 260,320" fill="none" stroke="#8B6940" stroke-width="4" stroke-linecap="round"/>
+      <path d="M170,315 Q200,145 230,315" fill="none" stroke="#8B6940" stroke-width="3" stroke-linecap="round"/>
+      <!-- Keystone -->
+      <ellipse cx="200" cy="42" rx="22" ry="16" fill="#C9A84C" opacity="0.8"/>
+      <ellipse cx="200" cy="42" rx="14" ry="10" fill="#D4B860" opacity="0.9"/>
+      <!-- Side columns -->
+      <rect x="20" y="340" width="30" height="60" fill="#C4A882"/>
+      <rect x="350" y="340" width="30" height="60" fill="#C4A882"/>
+      <!-- Column bases -->
+      <rect x="14" y="395" width="42" height="8" fill="#B09470" rx="1"/>
+      <rect x="344" y="395" width="42" height="8" fill="#B09470" rx="1"/>
+      <!-- Hanging plants from arch -->
+      <line x1="130" y1="180" x2="130" y2="240" stroke="#4A3820" stroke-width="1.5"/>
+      <ellipse cx="130" cy="252" rx="22" ry="14" fill="#4A6640"/>
+      <ellipse cx="120" cy="260" rx="13" ry="9" fill="#3D5835"/>
+      <line x1="270" y1="180" x2="270" y2="230" stroke="#4A3820" stroke-width="1.5"/>
+      <ellipse cx="270" cy="242" rx="20" ry="13" fill="#3D5835"/>
+      <ellipse cx="280" cy="250" rx="12" ry="8" fill="#4A6640"/>
+      <!-- Light beams -->
+      <line x1="200" y1="50" x2="200" y2="400" stroke="#FFF8E0" stroke-width="30" opacity="0.12"/>
+      <line x1="200" y1="50" x2="200" y2="400" stroke="#FFF8E0" stroke-width="10" opacity="0.15"/>
+      <!-- Floor -->
+      <rect x="0" y="390" width="400" height="12" fill="#C4A070"/>
+      <line x1="0" y1="394" x2="400" y2="394" stroke="#B09060" stroke-width="1"/>
+      <!-- Dimension markers -->
+      <line x1="10" y1="42" x2="10" y2="380" stroke="#C9A84C" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="5" y="215" font-family="'DM Sans', sans-serif" font-size="9" fill="#C9A84C" transform="rotate(-90,5,215)" text-anchor="middle">24 ft</text>
+    </svg>
+
+    <div class="ceiling-text reveal">
+      <p class="section-label">Design Detail — Vaulted Architecture</p>
+      <h2 class="section-title">Cathedral<br><em>ceilings</em>,<br>intentional light.</h2>
+      <blockquote class="quote-pull">
+        "The space itself teaches. When a child looks up, they should see possibility — not a drop ceiling."
+      </blockquote>
+      <p class="floor-desc">Inspired by the warmth of Highland vernacular interiors, the base floor features 24-foot vaulted ceilings with exposed white oak timber framing. Clerestory windows track morning light from east to west. Every material — stone, wood, woven textile — is chosen to ground children in the natural world.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FLOOR 2: CO-WORK ── -->
+<section class="floor-cowork" id="cowork">
+  <div class="cowork-visual">
+    <svg viewBox="0 0 600 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;inset:0">
+      <!-- Room background -->
+      <rect x="0" y="0" width="600" height="700" fill="#1E160E"/>
+      <!-- Ceiling -->
+      <rect x="0" y="0" width="600" height="80" fill="#2A1C10"/>
+      <!-- Exposed beams -->
+      <rect x="0" y="20" width="600" height="12" fill="#3A2810"/>
+      <rect x="0" y="45" width="600" height="8" fill="#3A2810"/>
+      <rect x="80" y="0" width="14" height="80" fill="#3A2810"/>
+      <rect x="220" y="0" width="12" height="80" fill="#3A2810"/>
+      <rect x="380" y="0" width="12" height="80" fill="#3A2810"/>
+      <rect x="520" y="0" width="14" height="80" fill="#3A2810"/>
+
+      <!-- Wall behind -->
+      <rect x="0" y="80" width="600" height="500" fill="#241A10"/>
+
+      <!-- Large windows with greenery view -->
+      <rect x="30" y="100" width="160" height="280" fill="#2A4030" rx="3"/>
+      <rect x="30" y="100" width="160" height="280" fill="url(#coworkWin)" rx="3"/>
+      <!-- Window frame -->
+      <rect x="30" y="100" width="4" height="280" fill="#3A2810"/>
+      <rect x="186" y="100" width="4" height="280" fill="#3A2810"/>
+      <rect x="30" y="100" width="160" height="4" fill="#3A2810"/>
+      <rect x="30" y="376" width="160" height="4" fill="#3A2810"/>
+      <line x1="110" y1="100" x2="110" y2="380" stroke="#3A2810" stroke-width="3"/>
+      <line x1="30" y1="235" x2="190" y2="235" stroke="#3A2810" stroke-width="2"/>
+
+      <rect x="410" y="100" width="160" height="280" fill="#2A4030" rx="3"/>
+      <rect x="410" y="100" width="160" height="280" fill="url(#coworkWin)" rx="3"/>
+      <rect x="410" y="100" width="4" height="280" fill="#3A2810"/>
+      <rect x="566" y="100" width="4" height="280" fill="#3A2810"/>
+      <rect x="410" y="100" width="160" height="4" fill="#3A2810"/>
+      <rect x="410" y="376" width="160" height="4" fill="#3A2810"/>
+      <line x1="490" y1="100" x2="490" y2="380" stroke="#3A2810" stroke-width="3"/>
+      <line x1="410" y1="235" x2="570" y2="235" stroke="#3A2810" stroke-width="2"/>
+
+      <!-- Center pendant light -->
+      <line x1="300" y1="0" x2="300" y2="110" stroke="#8B6040" stroke-width="2"/>
+      <ellipse cx="300" cy="120" rx="35" ry="15" fill="#6B4820"/>
+      <ellipse cx="300" cy="118" rx="30" ry="12" fill="#C9A84C" opacity="0.3"/>
+      <!-- Light glow -->
+      <ellipse cx="300" cy="150" rx="80" ry="40" fill="#D4A840" opacity="0.08"/>
+      <ellipse cx="300" cy="200" rx="120" ry="60" fill="#D4A840" opacity="0.04"/>
+
+      <!-- Work desks -->
+      <!-- Desk 1 -->
+      <rect x="60" y="430" width="180" height="8" fill="#5A3E20" rx="1"/>
+      <rect x="65" y="438" width="10" height="50" fill="#4A3218"/>
+      <rect x="225" y="438" width="10" height="50" fill="#4A3218"/>
+      <!-- Laptop on desk -->
+      <rect x="100" y="418" width="70" height="14" fill="#2A2A2A" rx="1"/>
+      <rect x="103" y="420" width="64" height="10" fill="#3A3A3A" rx="0.5"/>
+      <rect x="90" y="430" width="90" height="4" fill="#1A1A1A" rx="1"/>
+      <!-- Coffee mug -->
+      <rect x="185" y="422" width="16" height="12" fill="#8B5E3C" rx="2"/>
+      <ellipse cx="193" cy="422" rx="8" ry="3" fill="#7A4E2C"/>
+
+      <!-- Desk 2 -->
+      <rect x="360" y="430" width="180" height="8" fill="#5A3E20" rx="1"/>
+      <rect x="365" y="438" width="10" height="50" fill="#4A3218"/>
+      <rect x="525" y="438" width="10" height="50" fill="#4A3218"/>
+      <!-- Plant on desk 2 -->
+      <rect x="365" y="418" width="18" height="14" fill="#4A3820" rx="2"/>
+      <ellipse cx="374" cy="415" rx="12" ry="10" fill="#4A6640"/>
+      <ellipse cx="380" cy="410" rx="8" ry="8" fill="#3D5835"/>
+      <!-- Laptop on desk 2 -->
+      <rect x="400" y="418" width="70" height="14" fill="#2A2A2A" rx="1"/>
+      <rect x="403" y="420" width="64" height="10" fill="#3A3A3A" rx="0.5"/>
+      <rect x="390" y="430" width="90" height="4" fill="#1A1A1A" rx="1"/>
+
+      <!-- Lounge chairs center back -->
+      <rect x="220" y="460" width="160" height="80" fill="#3A2818" rx="4"/>
+      <rect x="215" y="455" width="170" height="20" fill="#4A3828" rx="3"/>
+      <!-- Cushions -->
+      <rect x="224" y="462" width="70" height="60" fill="#5A3820" rx="3"/>
+      <rect x="306" y="462" width="70" height="60" fill="#5A3820" rx="3"/>
+      <!-- Throw pillow -->
+      <rect x="238" y="470" width="30" height="25" fill="#7A8C6E" rx="3"/>
+      <rect x="330" y="470" width="30" height="25" fill="#C17B5C" rx="3"/>
+
+      <!-- Plants between windows and walls -->
+      <ellipse cx="210" cy="380" rx="30" ry="20" fill="#3D5835" opacity="0.9"/>
+      <ellipse cx="200" cy="368" rx="18" ry="15" fill="#4A6640"/>
+      <ellipse cx="220" cy="362" rx="14" ry="14" fill="#5A7650"/>
+      <rect x="202" y="392" width="14" height="20" fill="#4A3820" rx="1"/>
+
+      <ellipse cx="390" cy="380" rx="30" ry="20" fill="#4A6640" opacity="0.9"/>
+      <ellipse cx="400" cy="365" rx="18" ry="15" fill="#3D5835"/>
+      <rect x="386" y="392" width="14" height="20" fill="#4A3820" rx="1"/>
+
+      <!-- Floor -->
+      <rect x="0" y="580" width="600" height="120" fill="#3A2810"/>
+      <line x1="0" y1="590" x2="600" y2="590" stroke="#2A1C08" stroke-width="1.5"/>
+      <line x1="0" y1="605" x2="600" y2="605" stroke="#2A1C08" stroke-width="1.5"/>
+      <line x1="0" y1="620" x2="600" y2="620" stroke="#2A1C08" stroke-width="1.5"/>
+
+      <!-- Label -->
+      <text x="300" y="560" font-family="'Cormorant Garamond', Georgia, serif" font-size="14" fill="#C9A84C" text-anchor="middle" opacity="0.7" font-style="italic">Mother's Co-Work Lounge</text>
+
+      <defs>
+        <linearGradient id="coworkWin" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#B8D4C0" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#4A6640" stop-opacity="0.15"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="cowork-text reveal">
+    <p class="section-label">Floor Two — The Nest</p>
+    <h2 class="section-title">A workspace<br>built around<br><em>mothers.</em></h2>
+    <p class="floor-desc">While children learn downstairs, mothers work above — in a warm, intentional space designed for focus, connection, and the kind of productivity that doesn't sacrifice presence.</p>
+    <div class="amenity-grid">
+      <div class="amenity-card">
+        <div class="amenity-icon">🌿</div>
+        <div class="amenity-name">Living Wall Lounge</div>
+        <div class="amenity-desc">Biophilic co-work zone with floor-to-ceiling greenery, soft seating, and natural acoustic dampening</div>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">☕</div>
+        <div class="amenity-name">Community Kitchen</div>
+        <div class="amenity-desc">Full shared kitchen for meal prep, nutrition programming, and community cooking events</div>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">📱</div>
+        <div class="amenity-name">Focus Pods</div>
+        <div class="amenity-desc">Private acoustic rooms for calls, virtual meetings, and deep work — reservable by the hour</div>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">👶</div>
+        <div class="amenity-name">Visibility Windows</div>
+        <div class="amenity-desc">Interior glass panels overlooking the Montessori floor — stay connected without disrupting</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FLOOR 3: BUSINESS LEASES ── -->
+<section class="floor-lease" id="lease">
+  <div class="lease-header reveal">
+    <p class="section-label">Floor Three — Business Suites</p>
+    <h2 class="section-title">Small <em>businesses.</em><br>Real roots.</h2>
+    <p>Boutique suites on the third floor are purpose-leased to wellness and family-forward businesses. Every tenant is community-vetted. The building itself is the incubator.</p>
+  </div>
+  <div class="lease-suites">
+    <div class="suite-card">
+      <p class="suite-type">Suite A — Wellness</p>
+      <h3 class="suite-name">Day Spa & Skin Studio</h3>
+      <p class="suite-sqft">600–900 sq. ft.</p>
+      <ul class="suite-features">
+        <li>Private treatment rooms with operable skylights</li>
+        <li>Plumbing and ventilation for steam + aromatherapy</li>
+        <li>Waiting lounge with direct garden terrace access</li>
+        <li>Below-market lease tied to community membership discount</li>
+      </ul>
+    </div>
+    <div class="suite-card">
+      <p class="suite-type">Suite B — Health</p>
+      <h3 class="suite-name">Nutrition & Wellness Clinic</h3>
+      <p class="suite-sqft">500–700 sq. ft.</p>
+      <ul class="suite-features">
+        <li>Consultation rooms with natural light and greenery</li>
+        <li>Shared lab and storage for nutrition practitioners</li>
+        <li>Integrated with kitchen programming downstairs</li>
+        <li>Priority access for mothers enrolled in co-work</li>
+      </ul>
+    </div>
+    <div class="suite-card">
+      <p class="suite-type">Suite C — Creative</p>
+      <h3 class="suite-name">Studio & Creative Agency</h3>
+      <p class="suite-sqft">400–800 sq. ft.</p>
+      <ul class="suite-features">
+        <li>Open-plan studio with exposed beam ceilings</li>
+        <li>North-facing light for photography and art</li>
+        <li>Access to shared library and community resources</li>
+        <li>Flexible lease — monthly or annual terms available</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIBRARY / COMMUNITY ── -->
+<section class="library-section reveal" id="library">
+  <div class="library-text">
+    <p class="section-label">Throughout — Community First</p>
+    <h2 class="section-title">A library that<br>belongs to<br><em>everyone.</em></h2>
+    <p class="floor-desc" style="color:var(--fog)">Woven through every floor is the library — not a room, but a philosophy. Books, tools, resources, and knowledge are accessible to every child, mother, tenant, and neighbor. The building becomes a node of neighborhood wealth, not just a facility.</p>
+    <p class="floor-desc" style="color:var(--fog);margin-top:1rem">Community First — Empowering Families from Food to Future.</p>
+  </div>
+  <div class="library-stats">
+    <div class="stat-block">
+      <div class="stat-big">3<span class="stat-unit"> floors</span></div>
+      <div class="stat-desc">Integrated Community</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-big">$6<span class="stat-unit">M</span></div>
+      <div class="stat-desc">Buildout Vision</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-big">60<span class="stat-unit">+</span></div>
+      <div class="stat-desc">Children Served Daily</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-big">P3<span class="stat-unit"> led</span></div>
+      <div class="stat-desc">Public-Private Partnership</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     ANIMATED FLOOR SWITCHER
+══════════════════════════════════════════ -->
+<section class="floor-switcher" id="floor-switcher">
+
+  <div class="switcher-header reveal">
+    <div>
+      <p class="section-label">Interactive Tour — All Three Floors</p>
+      <h2>Explore every<br><em>level</em> of the village.</h2>
+    </div>
+    <div class="switcher-tabs">
+      <button class="sw-tab active" onclick="switchFloor(0)">Floor 1</button>
+      <button class="sw-tab" onclick="switchFloor(1)">Floor 2</button>
+      <button class="sw-tab" onclick="switchFloor(2)">Floor 3</button>
+    </div>
+  </div>
+
+  <!-- Stage: Building + overlays + panel -->
+  <div class="switcher-stage" id="switcher-stage">
+    <div class="auto-cycle-bar" id="cycle-bar"></div>
+
+    <!-- ── BUILDING SHELL SVG ── -->
+    <svg class="building-shell" viewBox="0 0 1100 680" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sw-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1C2830"/>
+          <stop offset="50%" stop-color="#2A3828"/>
+          <stop offset="100%" stop-color="#1A1108"/>
+        </linearGradient>
+        <linearGradient id="sw-glass1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#D4EAF5" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#7AAAB8" stop-opacity="0.35"/>
+        </linearGradient>
+        <linearGradient id="sw-glass2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#B8D4C0" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#6A9480" stop-opacity="0.25"/>
+        </linearGradient>
+        <linearGradient id="sw-glass3" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#E4F0F8" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#B0C8DC" stop-opacity="0.3"/>
+        </linearGradient>
+        <filter id="sw-glow">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="floor-glow">
+          <feGaussianBlur stdDeviation="18" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Sky -->
+      <rect x="0" y="0" width="1100" height="680" fill="url(#sw-sky)"/>
+
+      <!-- Stars -->
+      <circle cx="100" cy="40" r="1" fill="white" opacity="0.4"/>
+      <circle cx="250" cy="20" r="1.2" fill="white" opacity="0.3"/>
+      <circle cx="420" cy="55" r="0.8" fill="white" opacity="0.5"/>
+      <circle cx="650" cy="30" r="1" fill="white" opacity="0.35"/>
+      <circle cx="820" cy="15" r="1.3" fill="white" opacity="0.4"/>
+      <circle cx="950" cy="50" r="0.9" fill="white" opacity="0.3"/>
+      <circle cx="1050" cy="35" r="1.1" fill="white" opacity="0.45"/>
+
+      <!-- Moon glow -->
+      <circle cx="900" cy="80" r="28" fill="#D4C8A0" opacity="0.12"/>
+      <circle cx="900" cy="80" r="18" fill="#E8DDB0" opacity="0.15"/>
+      <circle cx="900" cy="80" r="11" fill="#F0E8C0" opacity="0.25"/>
+
+      <!-- Trees -->
+      <ellipse cx="90" cy="430" rx="60" ry="85" fill="#1E3018" opacity="0.9"/>
+      <ellipse cx="90" cy="448" rx="42" ry="58" fill="#263D20"/>
+      <rect x="82" y="498" width="16" height="65" fill="#1A1008"/>
+      <ellipse cx="155" cy="445" rx="48" ry="68" fill="#1A2C14"/>
+      <rect x="148" y="500" width="14" height="60" fill="#1A1008"/>
+      <ellipse cx="40" cy="455" rx="36" ry="52" fill="#1E3018" opacity="0.8"/>
+
+      <ellipse cx="1010" cy="428" rx="62" ry="88" fill="#1E3018" opacity="0.9"/>
+      <ellipse cx="1010" cy="448" rx="44" ry="60" fill="#263D20"/>
+      <rect x="1002" y="498" width="16" height="65" fill="#1A1008"/>
+      <ellipse cx="1060" cy="445" rx="46" ry="65" fill="#1A2C14"/>
+      <rect x="1054" y="500" width="14" height="60" fill="#1A1008"/>
+      <ellipse cx="960" cy="455" rx="36" ry="52" fill="#1E3018" opacity="0.8"/>
+
+      <!-- Ground -->
+      <rect x="0" y="545" width="1100" height="135" fill="#110C04"/>
+      <rect x="0" y="543" width="1100" height="5" fill="#1E1508"/>
+
+      <!-- Building foundation -->
+      <rect x="182" y="540" width="736" height="18" fill="#2A1C0E"/>
+
+      <!-- ── FLOOR 1 WALLS ── -->
+      <rect x="200" y="348" width="700" height="198" fill="#3A2C1A"/>
+      <rect x="200" y="348" width="28" height="198" fill="#2E2214"/>
+      <rect x="872" y="348" width="28" height="198" fill="#2E2214"/>
+
+      <!-- Floor 1 windows — lit warm -->
+      <rect x="244" y="358" width="90" height="174" fill="#8B6030" opacity="0.15" rx="2"/>
+      <rect x="244" y="358" width="90" height="174" fill="url(#sw-glass1)" rx="2"/>
+      <line x1="289" y1="358" x2="289" y2="532" stroke="#4A3420" stroke-width="2"/>
+      <line x1="244" y1="440" x2="334" y2="440" stroke="#4A3420" stroke-width="1.5"/>
+      <path d="M244,374 Q289,350 334,374" fill="none" stroke="#4A3420" stroke-width="2"/>
+
+      <rect x="350" y="358" width="90" height="174" fill="#8B6030" opacity="0.15" rx="2"/>
+      <rect x="350" y="358" width="90" height="174" fill="url(#sw-glass1)" rx="2"/>
+      <line x1="395" y1="358" x2="395" y2="532" stroke="#4A3420" stroke-width="2"/>
+      <line x1="350" y1="440" x2="440" y2="440" stroke="#4A3420" stroke-width="1.5"/>
+      <path d="M350,374 Q395,350 440,374" fill="none" stroke="#4A3420" stroke-width="2"/>
+
+      <!-- Entry door -->
+      <rect x="490" y="398" width="120" height="150" fill="#4A3018" rx="2"/>
+      <rect x="495" y="403" width="52" height="140" fill="#1A2820" rx="1"/>
+      <rect x="553" y="403" width="52" height="140" fill="#1A2820" rx="1"/>
+      <path d="M490,413 Q550,388 610,413" fill="#3A2410" stroke="#2A1808" stroke-width="1"/>
+      <circle cx="543" cy="488" r="4" fill="#C9A84C"/>
+      <circle cx="563" cy="488" r="4" fill="#C9A84C"/>
+      <rect x="474" y="538" width="152" height="7" fill="#3A2810" rx="1"/>
+      <rect x="464" y="544" width="172" height="5" fill="#2A1C08"/>
+
+      <rect x="660" y="358" width="90" height="174" fill="#8B6030" opacity="0.15" rx="2"/>
+      <rect x="660" y="358" width="90" height="174" fill="url(#sw-glass1)" rx="2"/>
+      <line x1="705" y1="358" x2="705" y2="532" stroke="#4A3420" stroke-width="2"/>
+      <line x1="660" y1="440" x2="750" y2="440" stroke="#4A3420" stroke-width="1.5"/>
+      <path d="M660,374 Q705,350 750,374" fill="none" stroke="#4A3420" stroke-width="2"/>
+
+      <rect x="765" y="358" width="90" height="174" fill="#8B6030" opacity="0.15" rx="2"/>
+      <rect x="765" y="358" width="90" height="174" fill="url(#sw-glass1)" rx="2"/>
+      <line x1="810" y1="358" x2="810" y2="532" stroke="#4A3420" stroke-width="2"/>
+      <line x1="765" y1="440" x2="855" y2="440" stroke="#4A3420" stroke-width="1.5"/>
+      <path d="M765,374 Q810,350 855,374" fill="none" stroke="#4A3420" stroke-width="2"/>
+
+      <!-- Floor 1 cornice -->
+      <rect x="196" y="342" width="708" height="10" fill="#3A2C1A"/>
+      <rect x="190" y="338" width="720" height="6" fill="#2E2214"/>
+
+      <!-- ── FLOOR 2 WALLS ── -->
+      <rect x="215" y="208" width="670" height="136" fill="#2C2010"/>
+      <rect x="215" y="208" width="24" height="136" fill="#24180C"/>
+      <rect x="861" y="208" width="24" height="136" fill="#24180C"/>
+
+      <!-- Floor 2 windows -->
+      <rect x="250" y="218" width="110" height="94" fill="url(#sw-glass2)" rx="2"/>
+      <line x1="305" y1="218" x2="305" y2="312" stroke="#3A2C1A" stroke-width="1.5"/>
+      <line x1="250" y1="263" x2="360" y2="263" stroke="#3A2C1A" stroke-width="1"/>
+      <rect x="375" y="218" width="110" height="94" fill="url(#sw-glass2)" rx="2"/>
+      <line x1="430" y1="218" x2="430" y2="312" stroke="#3A2C1A" stroke-width="1.5"/>
+      <line x1="375" y1="263" x2="485" y2="263" stroke="#3A2C1A" stroke-width="1"/>
+
+      <!-- Center balcony f2 -->
+      <rect x="500" y="216" width="100" height="96" fill="url(#sw-glass2)" rx="2"/>
+      <rect x="495" y="310" width="110" height="5" fill="#5A3E1E"/>
+      <line x1="505" y1="310" x2="505" y2="338" stroke="#5A3E1E" stroke-width="3"/>
+      <line x1="520" y1="310" x2="520" y2="338" stroke="#5A3E1E" stroke-width="2"/>
+      <line x1="535" y1="310" x2="535" y2="338" stroke="#5A3E1E" stroke-width="2"/>
+      <line x1="550" y1="310" x2="550" y2="338" stroke="#5A3E1E" stroke-width="2"/>
+      <line x1="565" y1="310" x2="565" y2="338" stroke="#5A3E1E" stroke-width="2"/>
+      <line x1="580" y1="310" x2="580" y2="338" stroke="#5A3E1E" stroke-width="2"/>
+      <line x1="595" y1="310" x2="595" y2="338" stroke="#5A3E1E" stroke-width="3"/>
+      <ellipse cx="520" cy="334" rx="9" ry="6" fill="#2E4A22" opacity="0.9"/>
+      <ellipse cx="553" cy="336" rx="10" ry="7" fill="#263D1C" opacity="0.9"/>
+      <ellipse cx="582" cy="332" rx="8" ry="6" fill="#2E4A22" opacity="0.9"/>
+
+      <rect x="615" y="218" width="110" height="94" fill="url(#sw-glass2)" rx="2"/>
+      <line x1="670" y1="218" x2="670" y2="312" stroke="#3A2C1A" stroke-width="1.5"/>
+      <line x1="615" y1="263" x2="725" y2="263" stroke="#3A2C1A" stroke-width="1"/>
+      <rect x="740" y="218" width="110" height="94" fill="url(#sw-glass2)" rx="2"/>
+      <line x1="795" y1="218" x2="795" y2="312" stroke="#3A2C1A" stroke-width="1.5"/>
+      <line x1="740" y1="263" x2="850" y2="263" stroke="#3A2C1A" stroke-width="1"/>
+
+      <!-- Floor 2 cornice -->
+      <rect x="210" y="202" width="680" height="9" fill="#3A2C1A"/>
+      <rect x="205" y="198" width="690" height="5" fill="#2E2214"/>
+
+      <!-- ── FLOOR 3 WALLS ── -->
+      <rect x="235" y="88" width="630" height="114" fill="#342618"/>
+      <rect x="235" y="88" width="20" height="114" fill="#2A1E10"/>
+      <rect x="845" y="88" width="20" height="114" fill="#2A1E10"/>
+
+      <!-- Floor 3 windows -->
+      <rect x="268" y="100" width="70" height="70" fill="url(#sw-glass3)" rx="2"/>
+      <line x1="303" y1="100" x2="303" y2="170" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="268" y1="133" x2="338" y2="133" stroke="#3A2C1A" stroke-width="0.8"/>
+      <rect x="354" y="100" width="70" height="70" fill="url(#sw-glass3)" rx="2"/>
+      <line x1="389" y1="100" x2="389" y2="170" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="354" y1="133" x2="424" y2="133" stroke="#3A2C1A" stroke-width="0.8"/>
+
+      <!-- Center skylight f3 -->
+      <rect x="445" y="94" width="210" height="80" fill="url(#sw-glass3)" rx="3"/>
+      <line x1="480" y1="94" x2="480" y2="174" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="515" y1="94" x2="515" y2="174" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="550" y1="94" x2="550" y2="174" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="585" y1="94" x2="585" y2="174" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="620" y1="94" x2="620" y2="174" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="445" y1="123" x2="655" y2="123" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="445" y1="150" x2="655" y2="150" stroke="#3A2C1A" stroke-width="1"/>
+
+      <rect x="671" y="100" width="70" height="70" fill="url(#sw-glass3)" rx="2"/>
+      <line x1="706" y1="100" x2="706" y2="170" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="671" y1="133" x2="741" y2="133" stroke="#3A2C1A" stroke-width="0.8"/>
+      <rect x="757" y="100" width="70" height="70" fill="url(#sw-glass3)" rx="2"/>
+      <line x1="792" y1="100" x2="792" y2="170" stroke="#3A2C1A" stroke-width="1"/>
+      <line x1="757" y1="133" x2="827" y2="133" stroke="#3A2C1A" stroke-width="0.8"/>
+
+      <!-- Floor 3 cornice -->
+      <rect x="228" y="82" width="644" height="9" fill="#3A2C1A"/>
+      <rect x="222" y="78" width="656" height="5" fill="#2E2214"/>
+
+      <!-- Parapet / roof -->
+      <rect x="245" y="52" width="610" height="30" fill="#2A1E10" rx="2"/>
+      <rect x="245" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="305" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="365" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="425" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="485" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="545" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="605" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="665" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="725" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="785" y="50" width="40" height="34" fill="#342618" rx="1"/>
+      <rect x="815" y="50" width="40" height="34" fill="#342618" rx="1"/>
+
+      <!-- Roof plants (silhouettes) -->
+      <ellipse cx="300" cy="50" rx="16" ry="10" fill="#1E3018" opacity="0.8"/>
+      <ellipse cx="450" cy="48" rx="20" ry="12" fill="#162810" opacity="0.8"/>
+      <ellipse cx="600" cy="50" rx="16" ry="10" fill="#1E3018" opacity="0.8"/>
+      <ellipse cx="750" cy="48" rx="18" ry="11" fill="#162810" opacity="0.8"/>
+
+      <!-- Ground plants -->
+      <ellipse cx="215" cy="543" rx="32" ry="16" fill="#1E3018" opacity="0.8"/>
+      <ellipse cx="195" cy="540" rx="22" ry="12" fill="#263D20" opacity="0.8"/>
+      <ellipse cx="885" cy="543" rx="32" ry="16" fill="#1E3018" opacity="0.8"/>
+      <ellipse cx="905" cy="540" rx="22" ry="12" fill="#263D20" opacity="0.8"/>
+    </svg>
+
+    <!-- ── FLOOR 1 OVERLAY — warm amber glow ── -->
+    <svg class="floor-overlay active" id="overlay-0" viewBox="0 0 1100 680" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="f1-glow" cx="50%" cy="80%" r="45%">
+          <stop offset="0%" stop-color="#D4841A" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#D4841A" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="f1-win-glow"><feGaussianBlur stdDeviation="4"/></filter>
+      </defs>
+      <!-- Overall floor ambient glow -->
+      <rect x="200" y="348" width="700" height="198" fill="url(#f1-glow)" rx="2"/>
+      <!-- Window light spills -->
+      <rect x="244" y="358" width="90" height="174" fill="#D4A840" opacity="0.22" rx="2"/>
+      <rect x="350" y="358" width="90" height="174" fill="#D4A840" opacity="0.22" rx="2"/>
+      <rect x="660" y="358" width="90" height="174" fill="#D4A840" opacity="0.22" rx="2"/>
+      <rect x="765" y="358" width="90" height="174" fill="#D4A840" opacity="0.22" rx="2"/>
+      <!-- Door glows -->
+      <rect x="490" y="398" width="120" height="150" fill="#C9A84C" opacity="0.18"/>
+      <!-- Ground light spill from windows -->
+      <ellipse cx="289" cy="540" rx="50" ry="15" fill="#D4A840" opacity="0.12"/>
+      <ellipse cx="395" cy="540" rx="50" ry="15" fill="#D4A840" opacity="0.12"/>
+      <ellipse cx="550" cy="540" rx="60" ry="15" fill="#C9A84C" opacity="0.15"/>
+      <ellipse cx="705" cy="540" rx="50" ry="15" fill="#D4A840" opacity="0.12"/>
+      <ellipse cx="810" cy="540" rx="50" ry="15" fill="#D4A840" opacity="0.12"/>
+      <!-- Floor label -->
+      <rect x="200" y="340" width="700" height="5" fill="#C9A84C" opacity="0.6"/>
+      <text x="200" y="328" font-family="'DM Sans', sans-serif" font-size="11" fill="#C9A84C" letter-spacing="3" opacity="0.9">FLOOR 01 — MONTESSORI VILLAGE</text>
+    </svg>
+
+    <!-- ── FLOOR 2 OVERLAY — sage green glow ── -->
+    <svg class="floor-overlay" id="overlay-1" viewBox="0 0 1100 680" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="f2-glow" cx="50%" cy="65%" r="40%">
+          <stop offset="0%" stop-color="#5A9C6A" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#5A9C6A" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect x="215" y="208" width="670" height="136" fill="url(#f2-glow)"/>
+      <!-- Window glows -->
+      <rect x="250" y="218" width="110" height="94" fill="#6AAC7A" opacity="0.25" rx="2"/>
+      <rect x="375" y="218" width="110" height="94" fill="#6AAC7A" opacity="0.25" rx="2"/>
+      <rect x="500" y="216" width="100" height="96" fill="#6AAC7A" opacity="0.28" rx="2"/>
+      <rect x="615" y="218" width="110" height="94" fill="#6AAC7A" opacity="0.25" rx="2"/>
+      <rect x="740" y="218" width="110" height="94" fill="#6AAC7A" opacity="0.25" rx="2"/>
+      <!-- Light spill down -->
+      <ellipse cx="550" cy="345" rx="200" ry="12" fill="#5A9C6A" opacity="0.1"/>
+      <!-- Floor bar highlight -->
+      <rect x="215" y="200" width="670" height="4" fill="#7AB88A" opacity="0.7"/>
+      <text x="215" y="190" font-family="'DM Sans', sans-serif" font-size="11" fill="#7AB88A" letter-spacing="3" opacity="0.9">FLOOR 02 — MOTHER'S CO-WORK</text>
+    </svg>
+
+    <!-- ── FLOOR 3 OVERLAY — cool silver-blue glow ── -->
+    <svg class="floor-overlay" id="overlay-2" viewBox="0 0 1100 680" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="f3-glow" cx="50%" cy="50%" r="45%">
+          <stop offset="0%" stop-color="#6A9CB8" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#6A9CB8" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect x="235" y="88" width="630" height="114" fill="url(#f3-glow)"/>
+      <rect x="268" y="100" width="70" height="70" fill="#8AB8D4" opacity="0.3" rx="2"/>
+      <rect x="354" y="100" width="70" height="70" fill="#8AB8D4" opacity="0.3" rx="2"/>
+      <rect x="445" y="94" width="210" height="80" fill="#8AB8D4" opacity="0.35" rx="3"/>
+      <rect x="671" y="100" width="70" height="70" fill="#8AB8D4" opacity="0.3" rx="2"/>
+      <rect x="757" y="100" width="70" height="70" fill="#8AB8D4" opacity="0.3" rx="2"/>
+      <!-- Skylight glow upward -->
+      <ellipse cx="550" cy="90" rx="100" ry="20" fill="#8AB8D4" opacity="0.15"/>
+      <!-- Floor bar -->
+      <rect x="235" y="80" width="630" height="4" fill="#8AB8D4" opacity="0.7"/>
+      <text x="235" y="70" font-family="'DM Sans', sans-serif" font-size="11" fill="#8AB8D4" letter-spacing="3" opacity="0.9">FLOOR 03 — BUSINESS SUITES & SPA</text>
+    </svg>
+
+    <!-- ── HOTSPOTS ── -->
+    <!-- Floor 1 hotspot -->
+    <div class="hotspot active" id="hs-0" style="left:48%;top:62%;" onclick="switchFloor(0)">
+      <div class="hotspot-ring"><div class="hotspot-dot"></div></div>
+    </div>
+    <!-- Floor 2 hotspot -->
+    <div class="hotspot" id="hs-1" style="left:48%;top:38%;" onclick="switchFloor(1)">
+      <div class="hotspot-ring"><div class="hotspot-dot"></div></div>
+    </div>
+    <!-- Floor 3 hotspot -->
+    <div class="hotspot" id="hs-2" style="left:48%;top:18%;" onclick="switchFloor(2)">
+      <div class="hotspot-ring"><div class="hotspot-dot"></div></div>
+    </div>
+
+    <!-- ── INFO PANEL ── -->
+    <div class="floor-info-panel visible" id="info-panel">
+      <div class="panel-floor-num" id="panel-num">01</div>
+      <p class="panel-label" id="panel-label">Floor One — Ground Level</p>
+      <h3 class="panel-title" id="panel-title">STEAM <em>Montessori</em> Village</h3>
+      <p class="panel-desc" id="panel-desc">High vaulted ceilings flood the open floor with natural light. Warm white oak, living plant walls, and Montessori materials create a place where children don't just attend school — they grow into themselves.</p>
+      <div class="panel-pills" id="panel-pills"></div>
+    </div>
+  </div>
+
+  <!-- Progress dots -->
+  <div class="switcher-progress">
+    <div class="prog-dot active" onclick="switchFloor(0)"></div>
+    <div class="prog-dot" onclick="switchFloor(1)"></div>
+    <div class="prog-dot" onclick="switchFloor(2)"></div>
+  </div>
+</section>
+
+<!-- ── MANIFESTO ── -->
+<section class="manifesto">
+  <h2 class="manifesto-title">"Community First — Empowering Families from Food to Future."</h2>
+  <p class="manifesto-sub">Legacies Learning Village — Est. by Skye, Giselle & Founding Families</p>
+  <div class="founders-row">
+    <span class="founder-chip">Skye — Founder</span>
+    <span class="founder-chip">Giselle — Co-Founder</span>
+    <span class="founder-chip">Parapats Aboomahores</span>
+    <span class="founder-chip">Dan Davis</span>
+    <span class="founder-chip">Diane — Board Advisory</span>
+    <span class="founder-chip">Fred — Advisory</span>
+  </div>
+</section>
+
+<script>
+  /* ── NAV SCROLL EFFECT ── */
+  const topNav = document.getElementById('top-nav');
+  window.addEventListener('scroll', () => {
+    topNav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  /* ─────────────────────────────────────
+     SCROLL REVEAL
+  ───────────────────────────────────── */
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        const children = e.target.querySelectorAll('.amenity-card, .suite-card, .stat-block');
+        children.forEach((c, i) => setTimeout(() => c.style.opacity = '1', i * 120));
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
+  reveals.forEach(r => revealObserver.observe(r));
+
+  // Init card opacity — amenity and stat cards only
+  document.querySelectorAll('.amenity-card, .stat-block').forEach(c => {
+    c.style.opacity = '0';
+    c.style.transition = 'opacity 0.5s ease';
+  });
+
+  /* ─────────────────────────────────────
+     FLOOR NAV SCROLL
+  ───────────────────────────────────── */
+  function navScrollTo(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+  const sections = ['montessori','vaulted','cowork','lease','library'];
+  const floorBtns = document.querySelectorAll('.floor-btn');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 200) current = id;
+    });
+    floorBtns.forEach((b, i) => b.classList.toggle('active', i === sections.indexOf(current)));
+  });
+
+  /* ─────────────────────────────────────
+     FLOOR SWITCHER DATA
+  ───────────────────────────────────── */
+  const floorData = [
+    {
+      num: '01',
+      label: 'Floor One — Ground Level',
+      title: 'STEAM <em>Montessori</em> Village',
+      desc: 'High vaulted ceilings flood the open floor with natural light. Warm white oak, living plant walls, and intentional Montessori materials create a place where children don\'t just attend school — they grow into themselves.',
+      pills: ['24 ft Vaulted Ceilings','Open Concept','Living Plant Walls','STEAM Maker Studio','In-floor Radiant Heat','8,400 sq. ft.'],
+      panelColor: '#C9A84C',
+    },
+    {
+      num: '02',
+      label: 'Floor Two — The Nest',
+      title: 'Mother\'s <em>Co-Work</em> Lounge',
+      desc: 'While children learn below, mothers work above — in a warm, intentional space with biophilic design, focus pods, community kitchen, and interior glass panels so you\'re never truly out of sight.',
+      pills: ['Biophilic Lounge','Focus Pods','Community Kitchen','Visibility Windows','Reservable Rooms','Natural Acoustics'],
+      panelColor: '#7AB88A',
+    },
+    {
+      num: '03',
+      label: 'Floor Three — Business Suites',
+      title: '<em>Boutique</em> Business Leases',
+      desc: 'Purpose-leased to wellness and family-forward small businesses. Day spas, nutrition clinics, and creative studios — each community-vetted, below-market, and integrated into the building\'s mission.',
+      pills: ['Day Spa Suite','Nutrition Clinic','Creative Studio','Skylight Suites','Community-Vetted','Flexible Lease Terms'],
+      panelColor: '#8AB8D4',
+    },
+  ];
+
+  /* ─────────────────────────────────────
+     SWITCHER STATE
+  ───────────────────────────────────── */
+  let currentFloor = 0;
+  let autoCycleTimer = null;
+  let cycleProgress = 0;
+  let cycleRAF = null;
+  const CYCLE_DURATION = 5000; // ms per floor
+
+  function switchFloor(index) {
+    if (index === currentFloor) return;
+    const prev = currentFloor;
+    currentFloor = index;
+
+    // Overlays
+    document.querySelectorAll('.floor-overlay').forEach((el, i) => {
+      el.classList.toggle('active', i === index);
+    });
+
+    // Tabs
+    document.querySelectorAll('.sw-tab').forEach((el, i) => {
+      el.classList.toggle('active', i === index);
+    });
+
+    // Hotspots
+    document.querySelectorAll('.hotspot').forEach((el, i) => {
+      el.classList.toggle('active', i === index);
+    });
+
+    // Progress dots
+    document.querySelectorAll('.prog-dot').forEach((el, i) => {
+      el.classList.toggle('active', i === index);
+    });
+
+    // Panel — slide out, update, slide in
+    const panel = document.getElementById('info-panel');
+    panel.classList.remove('visible');
+
+    setTimeout(() => {
+      const d = floorData[index];
+      document.getElementById('panel-num').textContent = d.num;
+      document.getElementById('panel-label').textContent = d.label;
+      document.getElementById('panel-title').innerHTML = d.title;
+      document.getElementById('panel-desc').textContent = d.desc;
+
+      const pillsEl = document.getElementById('panel-pills');
+      pillsEl.innerHTML = d.pills.map(p =>
+        `<span class="panel-pill" style="border-color:${d.panelColor}44;color:${d.panelColor}">${p}</span>`
+      ).join('');
+
+      panel.classList.add('visible');
+    }, 350);
+
+    // Restart auto-cycle
+    restartAutoCycle();
+  }
+
+  /* ─────────────────────────────────────
+     AUTO-CYCLE WITH PROGRESS BAR
+  ───────────────────────────────────── */
+  function restartAutoCycle() {
+    clearTimeout(autoCycleTimer);
+    cancelAnimationFrame(cycleRAF);
+    cycleProgress = 0;
+    animateCycleBar();
+  }
+
+  let cycleStart = null;
+  function animateCycleBar() {
+    cycleStart = null;
+    const bar = document.getElementById('cycle-bar');
+
+    function step(ts) {
+      if (!cycleStart) cycleStart = ts;
+      const elapsed = ts - cycleStart;
+      const pct = Math.min((elapsed / CYCLE_DURATION) * 100, 100);
+      bar.style.width = pct + '%';
+
+      if (pct < 100) {
+        cycleRAF = requestAnimationFrame(step);
+      } else {
+        bar.style.width = '0%';
+        const next = (currentFloor + 1) % 3;
+        switchFloor(next);
+      }
+    }
+
+    cycleRAF = requestAnimationFrame(step);
+  }
+
+  /* ─────────────────────────────────────
+     PAUSE ON HOVER
+  ───────────────────────────────────── */
+  const stage = document.getElementById('switcher-stage');
+  let pauseStart = null;
+  let pausedElapsed = 0;
+
+  stage.addEventListener('mouseenter', () => {
+    pauseStart = performance.now();
+    cancelAnimationFrame(cycleRAF);
+  });
+
+  stage.addEventListener('mouseleave', () => {
+    if (pauseStart !== null) {
+      // Restart the cycle from scratch (simpler & reliable)
+      restartAutoCycle();
+      pauseStart = null;
+    }
+  });
+
+  /* ─────────────────────────────────────
+     INIT PANEL PILLS
+  ───────────────────────────────────── */
+  (function initPanel() {
+    const d = floorData[0];
+    const pillsEl = document.getElementById('panel-pills');
+    pillsEl.innerHTML = d.pills.map(p =>
+      `<span class="panel-pill" style="border-color:${d.panelColor}44;color:${d.panelColor}">${p}</span>`
+    ).join('');
+  })();
+
+  // Start auto-cycle when switcher is in view
+  const switcherSection = document.getElementById('floor-switcher');
+  const switcherObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      restartAutoCycle();
+    } else {
+      cancelAnimationFrame(cycleRAF);
+      clearTimeout(autoCycleTimer);
+    }
+  }, { threshold: 0.3 });
+  switcherObserver.observe(switcherSection);
+</script>
+</body>
+</html>
