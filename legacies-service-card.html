@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legacies Learning Villages — Member Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EF;
+    --forest: #2C4A3E;
+    --gold: #C9963A;
+    --warm: #E8DCC8;
+    --text: #1A2E28;
+    --light: #6B8C82;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .card {
+    max-width: 480px;
+    width: 100%;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(44,74,62,0.12);
+  }
+
+  .header {
+    background: var(--forest);
+    padding: 36px 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,150,58,0.3);
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -20px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,150,58,0.15);
+  }
+
+  .tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+  }
+
+  .gold-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .body {
+    padding: 28px 32px;
+  }
+
+  .intro {
+    font-size: 13px;
+    color: var(--light);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    border-left: 2px solid var(--gold);
+    padding-left: 14px;
+  }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .services {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .service-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--cream);
+    border-radius: 4px;
+    border: 1px solid var(--warm);
+  }
+
+  .service-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .service-icon {
+    font-size: 18px;
+    width: 32px;
+    text-align: center;
+  }
+
+  .service-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .service-note {
+    font-size: 11px;
+    color: var(--light);
+    margin-top: 2px;
+  }
+
+  .credit-badge {
+    background: var(--forest);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--warm);
+    margin: 24px 0;
+  }
+
+  .packs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .pack {
+    border: 1px solid var(--warm);
+    border-radius: 4px;
+    padding: 14px;
+    text-align: center;
+    position: relative;
+  }
+
+  .pack.featured {
+    border-color: var(--gold);
+    background: rgba(201,150,58,0.04);
+  }
+
+  .pack-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 6px;
+  }
+
+  .pack-credits {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--forest);
+    line-height: 1;
+  }
+
+  .pack-unit {
+    font-size: 10px;
+    color: var(--light);
+    margin-bottom: 8px;
+  }
+
+  .pack-price {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .pack-per {
+    font-size: 10px;
+    color: var(--light);
+  }
+
+  .best-value {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: white;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+
+  .minimum-note {
+    background: var(--forest);
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .minimum-note strong {
+    color: var(--gold);
+  }
+
+  .example {
+    margin: 0 32px 24px;
+    background: var(--cream);
+    border: 1px solid var(--warm);
+    border-radius: 4px;
+    padding: 16px;
+  }
+
+  .example-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 12px;
+  }
+
+  .example-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--warm);
+  }
+
+  .example-row.highlight {
+    font-weight: 500;
+    color: var(--forest);
+    border-bottom: none;
+  }
+
+  .example-note {
+    font-size: 11px;
+    color: var(--light);
+    margin-top: 10px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .footer {
+    border-top: 1px solid var(--warm);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-size: 11px;
+    color: var(--light);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--forest);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="tagline">Community First</div>
+    <div class="brand">Legacies<br>Learning Villages</div>
+    <div class="sub">Empowering Families from Food to Future</div>
+  </div>
+  <div class="gold-bar"></div>
+
+  <div class="body">
+
+    <p class="intro">
+      As a Legacies member, you get access to real home and community services — handled by a trusted local team. Pay with credits, use them how you need.
+    </p>
+
+    <div class="section-label">Available Services</div>
+    <div class="services">
+      <div class="service-row">
+        <div class="service-left">
+          <div class="service-icon">🧺</div>
+          <div>
+            <div class="service-name">Laundry</div>
+            <div class="service-note">Wash + dry + fold • 2 hrs/week</div>
+          </div>
+        </div>
+        <div class="credit-badge">2 credits/wk</div>
+      </div>
+      <div class="service-row">
+        <div class="service-left">
+          <div class="service-icon">🍽️</div>
+          <div>
+            <div class="service-name">Dishes</div>
+            <div class="service-note">Daily kitchen cleanup</div>
+          </div>
+        </div>
+        <div class="credit-badge">1 credit/day</div>
+      </div>
+      <div class="service-row">
+        <div class="service-left">
+          <div class="service-icon">🌿</div>
+          <div>
+            <div class="service-name">Backyard Maintenance</div>
+            <div class="service-note">Mow, edge, tidy</div>
+          </div>
+        </div>
+        <div class="credit-badge">TBD</div>
+      </div>
+      <div class="service-row">
+        <div class="service-left">
+          <div class="service-icon">🏡</div>
+          <div>
+            <div class="service-name">Home Organizing</div>
+            <div class="service-note">Declutter + sort</div>
+          </div>
+        </div>
+        <div class="credit-badge">TBD</div>
+      </div>
+      <div class="service-row">
+        <div class="service-left">
+          <div class="service-icon">👶</div>
+          <div>
+            <div class="service-name">Childcare</div>
+            <div class="service-note">Trusted local care</div>
+          </div>
+        </div>
+        <div class="credit-badge">TBD</div>
+      </div>
+    </div>
+
+    <div class="minimum-note">
+      <strong>1 credit minimum per visit.</strong><br>
+      1 credit = 1 hour of service = $15 value
+    </div>
+
+    <div class="section-label">Membership</div>
+    <a href="https://www.bombselfcare.com/plans-pricing/payment/eyJpbnRlZ3JhdGlvbkRhdGEiOnt9LCJwbGFuSWQiOiJmYWM4MDU4Yi1mNmUwLTQ0NTAtYjM4Yy1iNTBjNzU5YmU1M2IiLCJjaGVja291dEZsb3dJZCI6IjBhNGZiNTM1LTg0MGEtNDQyZi1hYmZmLTE5YzdiNTZhNTJhYiIsImlzVjMiOmZhbHNlfQ" target="_blank" style="text-decoration: none;">
+    <div class="service-row" style="margin-bottom: 24px; border-color: var(--gold); background: rgba(201,150,58,0.04); cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(201,150,58,0.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <div class="service-left">
+        <div class="service-icon">⭐</div>
+        <div>
+          <div class="service-name">Starter Membership</div>
+          <div class="service-note">10 credits/month • renews monthly • expires monthly</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="credit-badge">$150/mo</div>
+        <div style="font-size:11px; color:var(--gold); font-weight:500;">Join →</div>
+      </div>
+    </div>
+    </a>
+
+    <div class="section-label">Need More? Add-On Packs</div>
+    <div class="packs">
+      <a href="https://www.bombselfcare.com/_paylink/AZ2YgLwr" target="_blank" style="text-decoration:none;">
+      <div class="pack featured" style="cursor:pointer; transition: transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(201,150,58,0.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div class="best-value">Best Value</div>
+        <div class="pack-label">Family</div>
+        <div class="pack-credits">50</div>
+        <div class="pack-unit">credits</div>
+        <div class="pack-price">$600</div>
+        <div class="pack-per">$12/credit • rolls over</div>
+        <div style="font-size:11px; color:var(--gold); font-weight:500; margin-top:6px;">Add On →</div>
+      </div>
+      </a>
+      <a href="https://www.bombselfcare.com/_paylink/AZ2YhApr" target="_blank" style="text-decoration:none;">
+      <div class="pack" style="cursor:pointer; transition: transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(44,74,62,0.15)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div class="pack-label">Basic</div>
+        <div class="pack-credits">25</div>
+        <div class="pack-unit">credits</div>
+        <div class="pack-price">$350</div>
+        <div class="pack-per">$14/credit • rolls over</div>
+        <div style="font-size:11px; color:var(--forest); font-weight:500; margin-top:6px;">Add On →</div>
+      </div>
+      </a>
+      <a href="https://www.bombselfcare.com/_paylink/AZ2YghxL" target="_blank" style="text-decoration:none;">
+      <div class="pack" style="cursor:pointer; transition: transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(44,74,62,0.15)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div class="pack-label">Community</div>
+        <div class="pack-credits">100</div>
+        <div class="pack-unit">credits</div>
+        <div class="pack-price">$1,000</div>
+        <div class="pack-per">$10/credit • rolls over</div>
+        <div style="font-size:11px; color:var(--forest); font-weight:500; margin-top:6px;">Add On →</div>
+      </div>
+      </a>
+    </div>
+
+    <div class="minimum-note" style="margin-top: 0;">
+      Monthly credits expire at month end.<br>
+      <strong>Add-on credits never expire.</strong>
+    </div>
+
+  </div>
+
+  <div class="example">
+    <div class="example-label">📋 Member Example — Chundana</div>
+    <div class="example-row">
+      <span>Starter Membership</span>
+      <span>10 credits/mo</span>
+    </div>
+    <div class="example-row">
+      <span>Laundry (2x/wk × 4 wks)</span>
+      <span>− 8 credits</span>
+    </div>
+    <div class="example-row highlight">
+      <span>Credits remaining</span>
+      <span>2 credits</span>
+    </div>
+    <div class="example-note">2 leftover credits expire end of month — or use on dishes, organizing, or childcare</div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">Text to book • Membership renews monthly</div>
+    <div class="footer-brand">Legacies LV</div>
+  </div>
+</div>
+</body>
+</html>
