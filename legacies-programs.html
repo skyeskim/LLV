@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legacies Learning Villages — Programs & Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky-dawn:#D4E9F7;--sky-mid:#A8CDE8;--sky-deep:#4A7FA5;
+  --gold:#C9A84C;--gold-pale:#F0E6C0;--gold-warm:#B8913A;
+  --green:#3D7A3A;--green-deep:#2A5228;--green-lt:#7AAE78;--green-pale:#D4E8D0;
+  --blush:#FDF0EB;--blush-deep:#C4826A;
+  --terra:#8B4513;--terra-lt:#D4956A;--terra-pale:#F5E6D8;
+  --cream:#FAF7F0;--white:#FEFDFB;--charcoal:#1C241C;--mid:#5A6860;--border:#E0EDD8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;width:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);overflow-x:hidden;width:100%;max-width:100vw;}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;background:rgba(42,82,40,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;padding:0 14px;gap:6px;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--gold-pale);white-space:nowrap;text-decoration:none;flex-shrink:0;}
+.nav-logo em{color:var(--gold);font-style:italic;}
+.nav-back{background:rgba(255,255,255,0.1);color:rgba(212,232,208,0.85);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:7px 12px;font-size:10px;letter-spacing:.8px;text-transform:uppercase;font-family:'DM Sans',sans-serif;text-decoration:none;margin-left:auto;flex-shrink:0;white-space:nowrap;transition:all .2s;}
+.nav-back:hover{background:rgba(255,255,255,0.18);color:var(--gold-pale);}
+.nav-enroll{background:var(--gold);color:var(--green-deep);border:none;border-radius:28px;padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:'DM Sans',sans-serif;margin-left:6px;text-decoration:none;display:inline-flex;align-items:center;transition:transform .2s;}
+.nav-enroll:hover{transform:translateY(-1px);}
+@media(max-width:480px){.nav-logo{font-size:13px;}.nav-back{font-size:9px;padding:6px 10px;}.nav-enroll{font-size:10px;padding:7px 10px;}}
+.stripe{height:3px;background:linear-gradient(90deg,var(--sky-mid),var(--green-lt),var(--gold),var(--terra-lt));}
+
+@keyframes cloudDrift{from{transform:translateX(0)}to{transform:translateX(20px)}}
+@keyframes sunPulse{from{transform:scale(1);opacity:.6}to{transform:scale(1.18);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* HERO */
+.hero{min-height:calc(100vh - 56px);background:linear-gradient(165deg,#C8DFF0 0%,#D5ECD5 30%,#EAF0D5 60%,#F5EDD5 80%,#FDF0EB 100%);display:flex;align-items:center;padding:80px 24px 60px;position:relative;overflow:hidden;text-align:center;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 280px at 15% 20%,rgba(255,255,255,0.52) 0%,transparent 70%),radial-gradient(ellipse 500px 200px at 80% 10%,rgba(255,255,255,0.38) 0%,transparent 65%);animation:cloudDrift 16s ease-in-out infinite alternate;pointer-events:none;}
+.hero-sun{position:absolute;top:-80px;right:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(232,217,160,0.22) 0%,transparent 65%);border-radius:50%;animation:sunPulse 7s ease-in-out infinite alternate;pointer-events:none;}
+.hero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto;width:100%;animation:fadeUp .9s ease both;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(42,82,40,0.1);border:1px solid rgba(42,82,40,0.18);border-radius:40px;padding:7px 18px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--green-deep);font-weight:600;margin-bottom:20px;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,8vw,72px);font-weight:700;color:var(--green-deep);line-height:1.0;margin-bottom:14px;}
+.hero-title em{font-style:italic;color:var(--gold-warm);}
+.hero-sub{font-size:clamp(14px,2.5vw,18px);color:var(--mid);font-weight:300;line-height:1.8;margin-bottom:36px;max-width:560px;margin-left:auto;margin-right:auto;}
+
+/* PROGRAM SELECTOR */
+.program-selector{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:720px;margin:0 auto 20px;}
+.prog-btn{border-radius:20px;padding:24px 20px;cursor:pointer;border:2px solid transparent;transition:all .3s;text-align:center;position:relative;overflow:hidden;text-decoration:none;display:block;}
+.prog-btn.toddler{background:linear-gradient(135deg,#D4E9F7,#D4E8D0);border-color:rgba(74,127,165,0.3);}
+.prog-btn.farm{background:linear-gradient(135deg,#F5E6D8,#D4E8D0);border-color:rgba(139,69,19,0.25);}
+.prog-btn:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(42,82,40,0.15);}
+.prog-btn .pb-icon{font-size:36px;margin-bottom:8px;display:block;}
+.prog-btn .pb-age{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:6px;}
+.toddler .pb-age{color:var(--sky-deep);}
+.farm .pb-age{color:var(--terra);}
+.prog-btn .pb-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--green-deep);margin-bottom:5px;line-height:1.2;}
+.prog-btn .pb-sub{font-size:12px;color:var(--mid);font-weight:300;line-height:1.5;}
+.prog-btn .pb-arrow{position:absolute;bottom:12px;right:16px;font-size:16px;opacity:.5;}
+
+.coming-soon-btn{display:block;background:rgba(42,82,40,0.06);border:2px dashed rgba(42,82,40,0.2);border-radius:14px;padding:16px 20px;text-align:center;color:var(--mid);font-size:13px;font-weight:400;text-decoration:none;transition:all .2s;max-width:720px;margin:0 auto;}
+.coming-soon-btn:hover{background:rgba(42,82,40,0.1);border-color:var(--green-lt);}
+.coming-soon-btn strong{color:var(--green-deep);display:block;font-family:'Cormorant Garamond',serif;font-size:17px;margin-bottom:3px;}
+
+/* PAGES */
+.prog-page{display:none;}
+.prog-page.active{display:block;animation:fadeUp .4s ease both;}
+
+/* SECTION STYLES */
+.wrap{padding:72px 24px;}
+.wrap.white{background:var(--white);}
+.wrap.dark{background:linear-gradient(160deg,var(--green-deep) 0%,#1C3820 100%);position:relative;overflow:hidden;}
+.wrap.dark::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 500px 400px at 80% 20%,rgba(122,174,120,0.12) 0%,transparent 70%);pointer-events:none;}
+.wrap.terra-bg{background:linear-gradient(148deg,var(--terra-pale) 0%,#F5EDD5 50%,var(--green-pale) 100%);}
+.wrap.sky-bg{background:linear-gradient(148deg,var(--sky-dawn) 0%,var(--green-pale) 60%,var(--gold-pale) 100%);}
+.section-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+.s-eye{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-warm);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.s-eye::after{content:'';flex:1;height:1px;background:var(--border);max-width:100px;}
+.s-eye.lt{color:var(--green-lt);}
+.s-eye.lt::after{background:rgba(255,255,255,0.15);}
+.s-head{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,42px);color:var(--green-deep);line-height:1.2;margin-bottom:14px;}
+.s-head em{font-style:italic;color:var(--gold-warm);}
+.s-head.lt{color:var(--gold-pale);}
+.s-sub{font-size:15px;color:var(--mid);font-weight:300;line-height:1.8;margin-bottom:32px;max-width:640px;}
+.s-sub.lt{color:rgba(212,232,208,0.82);}
+
+/* CARDS */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.card{background:var(--cream);border-radius:16px;padding:24px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(42,82,40,0.04);transition:transform .3s;}
+.card:hover{transform:translateY(-4px);}
+.card .icon{font-size:28px;margin-bottom:10px;display:block;}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--green-deep);margin-bottom:7px;}
+.card p{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;}
+.card.dark-card{background:rgba(255,255,255,0.07);border:1px solid rgba(232,217,160,0.18);backdrop-filter:blur(4px);}
+.card.dark-card h3{color:var(--gold-pale);}
+.card.dark-card p{color:rgba(212,232,208,0.75);}
+.card.dark-card:hover{background:rgba(255,255,255,0.11);}
+
+/* AGE TABS */
+.age-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.age-tab{background:var(--white);border:1px solid var(--border);border-radius:30px;padding:9px 20px;font-size:12px;font-weight:500;color:var(--mid);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.age-tab:hover{border-color:var(--green-lt);color:var(--green);}
+.age-tab.active{background:var(--green-deep);color:var(--gold-pale);border-color:var(--green-deep);font-weight:600;}
+.age-panel{display:none;}
+.age-panel.active{display:block;animation:fadeUp .35s ease both;}
+
+/* UNIT TABS */
+.unit-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;}
+.unit-tab{border:none;border-radius:24px;padding:8px 16px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;letter-spacing:.5px;opacity:.7;color:white;}
+.unit-tab:hover{opacity:1;transform:translateY(-1px);}
+.unit-tab.active{opacity:1;box-shadow:0 3px 12px rgba(0,0,0,0.15);}
+.unit-tab.u1{background:#4A7FA5;}
+.unit-tab.u2{background:#C4826A;}
+.unit-tab.u3{background:#7AAE78;}
+.unit-tab.u4{background:#2A5228;}
+.unit-tab.u5{background:#C9A84C;color:var(--green-deep);}
+.unit-tab.u6{background:#8B6B9E;}
+.unit-tab.u7{background:#B8913A;}
+.unit-panel{display:none;}
+.unit-panel.active{display:block;animation:fadeUp .35s ease both;}
+
+/* WEEK CARDS */
+.weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:16px;}
+.wk{background:var(--white);border-radius:14px;padding:18px;border:1px solid var(--border);box-shadow:0 2px 10px rgba(42,82,40,0.04);transition:transform .25s;position:relative;overflow:hidden;}
+.wk:hover{transform:translateY(-3px);}
+.wk-num{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
+.wk h3{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--green-deep);margin-bottom:7px;line-height:1.3;}
+.wk-levels{display:flex;flex-direction:column;gap:4px;margin-bottom:9px;}
+.wk-level{font-size:12px;color:var(--mid);font-weight:300;line-height:1.5;padding-left:10px;border-left:2px solid var(--border);}
+.wk-level strong{color:var(--charcoal);font-weight:600;font-size:11px;}
+.wk-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.wk-tag{font-size:10px;padding:3px 9px;border-radius:12px;font-weight:500;}
+.tag-sel{background:rgba(139,107,158,0.12);color:#6B4E8E;}
+.tag-art{background:rgba(196,130,106,0.12);color:var(--blush-deep);}
+.tag-spanish{background:rgba(201,168,76,0.15);color:var(--gold-warm);}
+.tag-hands{background:rgba(122,174,120,0.15);color:var(--green);}
+.tag-stem{background:rgba(74,127,165,0.12);color:var(--sky-deep);}
+.tag-farm{background:rgba(139,69,19,0.12);color:var(--terra);}
+
+.unit-header{border-radius:18px;padding:22px 24px;margin-bottom:18px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;}
+.unit-icon-big{font-size:48px;line-height:1;flex-shrink:0;}
+.unit-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,4vw,30px);color:var(--green-deep);margin-bottom:5px;}
+.unit-header p{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;}
+.weeks-badge{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:7px;color:white;}
+
+.unit-note{border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;margin-top:8px;}
+.unit-note .ni{font-size:18px;flex-shrink:0;}
+.unit-note p{font-size:13px;line-height:1.7;font-weight:300;}
+
+/* AGE BANNER */
+.age-banner{border-radius:18px;padding:22px 24px;margin-bottom:20px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;}
+.age-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;line-height:1;flex-shrink:0;}
+.age-banner h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--green-deep);margin-bottom:5px;}
+.age-banner p{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;}
+
+/* FARM CARDS */
+.farm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+.farm-card{background:var(--white);border-radius:16px;padding:24px;border:1px solid rgba(139,69,19,0.15);box-shadow:0 2px 12px rgba(139,69,19,0.05);transition:transform .3s;position:relative;overflow:hidden;}
+.farm-card:hover{transform:translateY(-4px);}
+.farm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--terra-lt);}
+.farm-card .icon{font-size:28px;margin-bottom:10px;display:block;}
+.farm-card h3{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--terra);margin-bottom:7px;}
+.farm-card p{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;}
+
+/* LIAISON BOX */
+.liaison-box{background:linear-gradient(135deg,var(--terra-pale),var(--gold-pale));border-radius:18px;padding:28px;border:1px solid rgba(139,69,19,0.2);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;margin-top:28px;}
+.liaison-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(201,168,76,0.3),rgba(139,69,19,0.2));border:2px solid rgba(139,69,19,0.25);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.liaison-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--green-deep);margin-bottom:3px;}
+.liaison-role{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--terra);margin-bottom:10px;}
+.liaison-text{font-size:14px;color:var(--mid);line-height:1.75;font-weight:300;}
+.liaison-cta{margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:var(--green-deep);color:var(--gold-pale);padding:11px 22px;border-radius:30px;font-size:12px;font-weight:600;text-decoration:none;transition:transform .2s;}
+.liaison-cta:hover{transform:translateY(-2px);}
+
+/* DAILY ROTATION */
+.rotation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.rot-card{background:rgba(255,255,255,0.07);border:1px solid rgba(232,217,160,0.18);border-radius:14px;padding:20px 16px;text-align:center;backdrop-filter:blur(4px);transition:all .3s;}
+.rot-card:hover{background:rgba(255,255,255,0.12);transform:translateY(-3px);}
+.rot-icon{font-size:28px;margin-bottom:8px;display:block;}
+.rot-card h3{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-pale);margin-bottom:5px;}
+.rot-card p{font-size:12px;color:rgba(212,232,208,0.72);line-height:1.6;font-weight:300;}
+.rot-time{margin-top:8px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:600;}
+
+/* COMING SOON SECTION */
+.waitlist-section{background:linear-gradient(155deg,#1C241C 0%,var(--green-deep) 100%);padding:80px 24px;text-align:center;position:relative;overflow:hidden;}
+.waitlist-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 50% 30%,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none;}
+.waitlist-inner{max-width:600px;margin:0 auto;position:relative;z-index:1;}
+.waitlist-badge{display:inline-block;background:rgba(201,168,76,0.15);color:var(--gold-pale);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:7px 18px;border-radius:40px;border:1px solid rgba(201,168,76,0.3);margin-bottom:20px;}
+.waitlist-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,50px);color:var(--gold-pale);line-height:1.1;margin-bottom:14px;}
+.waitlist-title em{font-style:italic;color:white;}
+.waitlist-sub{font-size:15px;color:rgba(212,232,208,0.85);font-weight:300;line-height:1.75;margin-bottom:32px;}
+.waitlist-programs{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:32px;}
+.wl-prog{background:rgba(255,255,255,0.06);border:1px solid rgba(232,217,160,0.15);border-radius:14px;padding:18px 14px;text-align:center;}
+.wl-prog .icon{font-size:28px;margin-bottom:8px;display:block;}
+.wl-prog h4{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-pale);margin-bottom:4px;}
+.wl-prog p{font-size:11px;color:rgba(212,232,208,0.65);font-weight:300;}
+.waitlist-btn{display:inline-block;background:var(--gold);color:var(--green-deep);padding:16px 36px;border-radius:50px;font-size:14px;font-weight:700;text-decoration:none;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(201,168,76,0.35);transition:transform .2s;}
+.waitlist-btn:hover{transform:translateY(-2px);}
+.waitlist-note{margin-top:20px;font-size:12px;color:rgba(212,232,208,0.5);font-style:italic;}
+
+/* CTA */
+.cta-footer{background:linear-gradient(155deg,#7BAFD4 0%,#5A9E72 40%,#3D7A3A 100%);padding:72px 24px;text-align:center;position:relative;overflow:hidden;}
+.cta-footer::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 50% 0%,rgba(232,217,160,0.1) 0%,transparent 70%);pointer-events:none;}
+.cta-inner{max-width:560px;margin:0 auto;position:relative;z-index:1;}
+.cta-badge{display:inline-block;background:rgba(232,217,160,0.18);color:var(--gold-pale);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:7px 18px;border-radius:40px;border:1px solid rgba(232,217,160,0.28);margin-bottom:18px;}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,50px);color:var(--gold-pale);line-height:1.1;margin-bottom:12px;}
+.cta-title em{font-style:italic;color:white;}
+.cta-sub{font-size:15px;color:rgba(212,232,208,0.88);font-weight:300;line-height:1.75;margin-bottom:28px;}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+.btn-gold{background:var(--gold);color:var(--green-deep);border:none;padding:15px 32px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(201,168,76,0.35);transition:transform .2s;text-decoration:none;display:inline-block;}
+.btn-gold:hover{transform:translateY(-2px);}
+.cta-contact{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.cc-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,232,208,0.5);margin-bottom:2px;}
+.cc-val{font-size:13px;color:var(--gold-pale);font-weight:500;}
+.cta-foot{margin-top:32px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.12);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,232,200,0.3);}
+
+@media(max-width:640px){
+  .hero{padding:64px 20px 48px;}
+  .program-selector{grid-template-columns:1fr;}
+  .wrap{padding:48px 20px;}
+  .unit-header,.age-banner,.liaison-box{grid-template-columns:1fr;}
+  .unit-icon-big,.age-num{font-size:36px;}
+  .weeks-grid{grid-template-columns:1fr;}
+  .cta-contact,.cta-btns{flex-direction:column;align-items:center;}
+  .waitlist-programs{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="legacies-public.html">Legacies <em>Learning Villages</em></a>
+  <a class="nav-back" href="https://serenitysacademy.com/page-2">← Back to Village</a>
+  <a href="sms:+17209795132" class="nav-enroll">🌱 Enroll</a>
+</nav>
+
+<div style="padding-top:56px;">
+<div class="stripe"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-sun"></div>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">🌿 Legacies Learning Villages · Programs & Curriculum</span>
+    <h1 class="hero-title">
+      Choose Your<br>
+      <em>Village Program.</em>
+    </h1>
+    <p class="hero-sub">Two programs built for two beautiful seasons of childhood. Each one rooted in the same village philosophy — child-led, intentional, bilingual, and full of wonder. Choose yours below.</p>
+
+    <div class="program-selector">
+      <a href="#" class="prog-btn toddler" onclick="showProgram('toddler');return false;">
+        <span class="pb-icon">🌱</span>
+        <div class="pb-age">Ages 1 – 3</div>
+        <div class="pb-title">Village Toddler Program</div>
+        <div class="pb-sub">Montessori & Waldorf inspired · Bilingual · Child-led with guided rotation</div>
+        <span class="pb-arrow">→</span>
+      </a>
+      <a href="#" class="prog-btn farm" onclick="showProgram('farm');return false;">
+        <span class="pb-icon">🌾</span>
+        <div class="pb-age">Ages 4 – 7</div>
+        <div class="pb-title">Farm School</div>
+        <div class="pb-sub">35-week curriculum · Farm-to-table · Project-based · STEAM · Bilingual</div>
+        <span class="pb-arrow">→</span>
+      </a>
+    </div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf5_aWd2nu4qUPhcM0tfuggEpXenz-DeMdDZvzofPkXdfx4ng/viewform" target="_blank" class="coming-soon-btn">
+      <strong>Programs for Older Students — Coming Soon ✨</strong>
+      You are raising someone remarkable. Join the waitlist and be the first to know when we expand. →
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     TODDLER PROGRAM (Ages 1–3)
+═══════════════════════════════ -->
+<div class="prog-page" id="prog-toddler">
+
+  <!-- PROGRAM INTRO -->
+  <section class="wrap white">
+    <div class="section-inner">
+      <p class="s-eye">Village Toddler Program · Ages 1–3</p>
+      <h2 class="s-head">The world is brand new.<br><em>Let them discover it.</em></h2>
+      <p class="s-sub">Montessori and Waldorf inspired. Project-based. Child-led with gentle guided rotations. Bilingual from day one. Farm-to-table snacks prepared in-house. A program that meets your toddler exactly where they are — and walks with them as they grow.</p>
+      <div class="grid-3">
+        <div class="card"><span class="icon">🏺</span><h3>Montessori Inspired</h3><p>Child-led choice, practical life skills, sensorial learning, and real independence built through beautiful, intentional work.</p></div>
+        <div class="card"><span class="icon">🌻</span><h3>Waldorf Inspired</h3><p>Natural materials, storytelling, seasonal rhythm, music, and imagination — because toddlers learn through their whole body.</p></div>
+        <div class="card"><span class="icon">🔭</span><h3>Project-Based</h3><p>Real questions, real exploration, real pride. When children are invested in a project, they are unstoppable.</p></div>
+        <div class="card"><span class="icon">🤱</span><h3>The Coziness of Auntie</h3><p>Your child will experience the warmth of familiar faces, tummy time challenges, and the joy of seeing the world for the first time.</p></div>
+        <div class="card"><span class="icon">🥦</span><h3>Farm-to-Table Snacks</h3><p>Healthy snacks prepared in-house daily. Children help wash, pour, and prepare. Real food, real learning, real nourishment.</p></div>
+        <div class="card"><span class="icon">🇲🇽</span><h3>Bilingual Daily</h3><p>English and Spanish woven naturally through every activity, every story, every song. Language is a gift we give early.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGE JOURNEY -->
+  <section class="wrap">
+    <div class="section-inner">
+      <p class="s-eye">How It Changes By Age</p>
+      <h2 class="s-head">Same village. Same love.<br><em>Different depth every year.</em></h2>
+      <p class="s-sub">A 13-month-old and a 35-month-old live in completely different developmental worlds. Our curriculum shifts meaningfully at each stage.</p>
+
+      <div class="age-tabs">
+        <button class="age-tab active" onclick="showToddlerAge('1',event)">🌙 Age 1 · The Explorer</button>
+        <button class="age-tab" onclick="showToddlerAge('2',event)">⚡ Age 2 · The Builder</button>
+        <button class="age-tab" onclick="showToddlerAge('3',event)">🌟 Age 3 · The Leader</button>
+      </div>
+
+      <div class="age-panel active" id="todd-1">
+        <div class="age-banner" style="background:linear-gradient(135deg,#EAF4FB,#F0F7EE);border:1px solid rgba(74,127,165,0.2);">
+          <div class="age-num" style="color:var(--sky-deep);">1</div>
+          <div><h3>The Explorer — Ages 12–24 Months</h3><p>Everything is new. Everything is fascinating. Our 1-year-old curriculum is built around safe, rich sensory exploration, the foundational language explosion, and the warmth of a village that knows them by name.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid var(--sky-deep);">
+            <div class="wk-num" style="color:var(--sky-deep);">Sensorial & Motor</div>
+            <h3>Treasure Baskets & Sensory Play</h3>
+            <p class="wk-level" style="border:none;padding:0;">Natural objects — wood, fabric, metal — to touch, explore, fill, and dump. Fine motor development through joyful discovery.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-hands">Heuristic play</span><span class="wk-tag tag-stem">Montessori inspired</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--sky-deep);">
+            <div class="wk-num" style="color:var(--sky-deep);">Language & Literacy</div>
+            <h3>Word Flooding & Books</h3>
+            <p class="wk-level" style="border:none;padding:0;">We name everything, all day. Board books in English and Spanish, songs, and simple two-word phrase modeling.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-spanish">Bilingual daily</span><span class="wk-tag tag-hands">Daily read-alouds</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--sky-deep);">
+            <div class="wk-num" style="color:var(--sky-deep);">Practical Life</div>
+            <h3>I Can Do It Myself</h3>
+            <p class="wk-level" style="border:none;padding:0;">Pouring, wiping, washing hands — real Montessori practical life work gives toddlers competence and pride from the earliest age.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-stem">Montessori inspired</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--sky-deep);">
+            <div class="wk-num" style="color:var(--sky-deep);">Art & Expression</div>
+            <h3>Process Art — Not Product</h3>
+            <p class="wk-level" style="border:none;padding:0;">Natural paints, sensory dough, finger painting — exploring freely. The process is the curriculum at this age.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-art">Waldorf inspired</span></div>
+          </div>
+        </div>
+        <div class="unit-note" style="background:rgba(74,127,165,0.08);border:1px solid rgba(74,127,165,0.18);"><div class="ni">🌙</div><p style="color:var(--sky-deep);"><strong>At age 1, we follow their lead completely.</strong> Attention spans are short — that is perfect. We offer rich environments and warm, responsive caregivers who celebrate every single discovery.</p></div>
+      </div>
+
+      <div class="age-panel" id="todd-2">
+        <div class="age-banner" style="background:linear-gradient(135deg,#F0F7EE,#F5EDD5);border:1px solid rgba(122,174,120,0.25);">
+          <div class="age-num" style="color:var(--green);">2</div>
+          <div><h3>The Builder — Ages 24–36 Months</h3><p>Two-year-olds are intense, passionate, and brilliant. They have opinions (loudly), they have ideas, and they are discovering who they are. Our curriculum channels that power into building, creating, and connecting.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid var(--green);">
+            <div class="wk-num" style="color:var(--green);">Projects</div>
+            <h3>Our First Big Projects</h3>
+            <p class="wk-level" style="border:none;padding:0;">What do seeds need? Where does water go? Multi-day explorations with real investigation and real outcomes.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-stem">Project-based</span><span class="wk-tag tag-hands">Science & wonder</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--green);">
+            <div class="wk-num" style="color:var(--green);">Language</div>
+            <h3>Storytelling & Story Acting</h3>
+            <p class="wk-level" style="border:none;padding:0;">Children dictate narratives, act out stories, and begin to sequence events. Language explodes and we fuel every flame.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-spanish">Bilingual stories</span><span class="wk-tag tag-art">Puppet play</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--green);">
+            <div class="wk-num" style="color:var(--green);">Social & Emotional</div>
+            <h3>Learning to Be With Others</h3>
+            <p class="wk-level" style="border:none;padding:0;">Sharing, naming feelings, using words — two is the year of big emotions and our curriculum meets them with compassion.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-sel">SEL: Feelings vocabulary</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--green);">
+            <div class="wk-num" style="color:var(--green);">Practical Life</div>
+            <h3>Real Responsibility</h3>
+            <p class="wk-level" style="border:none;padding:0;">Setting snack tables, watering plants, classroom jobs — two-year-olds love real work. We give them real roles and real recognition.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-farm">Farm-to-table snack prep</span></div>
+          </div>
+        </div>
+        <div class="unit-note" style="background:rgba(122,174,120,0.08);border:1px solid rgba(122,174,120,0.2);"><div class="ni">⚡</div><p style="color:var(--green);"><strong>Two is not terrible. Two is extraordinary.</strong> The passion, the intensity — that is a powerful mind waking up to itself. We honor it, guide it, and celebrate every outburst of personhood.</p></div>
+      </div>
+
+      <div class="age-panel" id="todd-3">
+        <div class="age-banner" style="background:linear-gradient(135deg,#FDF0EB,#F5EDD5);border:1px solid rgba(196,130,106,0.2);">
+          <div class="age-num" style="color:var(--blush-deep);">3</div>
+          <div>
+            <h3>The Leader — Age 3</h3>
+            <p>Three-year-olds are ready for bigger questions, longer projects, real friendships, and the beginning of academic foundations. Our curriculum deepens everything — and at age 3, a conversation with your liaison can open the door to our Farm School program.</p>
+          </div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid var(--blush-deep);">
+            <div class="wk-num" style="color:var(--blush-deep);">Early Literacy</div>
+            <h3>Letters, Sounds & Stories</h3>
+            <p class="wk-level" style="border:none;padding:0;">Letter recognition, phonemic awareness, and the beginning of pre-reading — woven into play, never worksheets.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-stem">Montessori sandpaper letters</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--blush-deep);">
+            <div class="wk-num" style="color:var(--blush-deep);">Early Numeracy</div>
+            <h3>Numbers in the Real World</h3>
+            <p class="wk-level" style="border:none;padding:0;">Counting snacks, measuring ingredients, sorting — math is everywhere and three-year-olds are ready to find it.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-farm">Cooking measurements</span><span class="wk-tag tag-stem">Montessori beads</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--blush-deep);">
+            <div class="wk-num" style="color:var(--blush-deep);">Deep Projects</div>
+            <h3>Long-Form Inquiry</h3>
+            <p class="wk-level" style="border:none;padding:0;">Two and three-week projects on nature, community, animals, seasons. Three-year-olds can sustain deep interest.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag tag-hands">Documentation panels</span><span class="wk-tag tag-stem">Child-led questions</span></div>
+          </div>
+          <div class="wk" style="border-top:3px solid var(--gold);background:linear-gradient(135deg,rgba(240,230,192,0.2),var(--white));">
+            <div class="wk-num" style="color:var(--gold-warm);">✨ Special Note</div>
+            <h3>Ready for Farm School?</h3>
+            <p class="wk-level" style="border:none;padding:0;">If your 3-year-old is thriving and ready, early entry to our Farm School program (ages 4–7) is possible. Speak with your liaison to find out if your child is ready.</p>
+            <div class="wk-tags" style="margin-top:8px;"><span class="wk-tag" style="background:rgba(201,168,76,0.2);color:var(--gold-warm);">Talk to Skye Parapat</span></div>
+          </div>
+        </div>
+
+        <!-- LIAISON CARD -->
+        <div class="liaison-box">
+          <div class="liaison-avatar">👩‍🏫</div>
+          <div>
+            <div class="liaison-name">Skye Parapat</div>
+            <div class="liaison-role">Founder & Liaison · Legacies Learning Villages</div>
+            <p class="liaison-text">If your 3-year-old is showing readiness for our Farm School program, Skye is your direct point of contact. Every early admission decision is made personally — because every child is different and every family deserves that conversation. Reach out and let's talk about your child.</p>
+            <a href="sms:+17209795132" class="liaison-cta">📱 Text Skye Directly</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAILY RHYTHM -->
+  <section class="wrap dark">
+    <div class="section-inner">
+      <p class="s-eye lt">Toddler Daily Rhythm</p>
+      <h2 class="s-head lt">Freedom within<br><em>a beautiful routine.</em></h2>
+      <p class="s-sub lt">Toddlers thrive on predictability. Our guided rotation gives children the freedom to choose within a warm, consistent daily structure — so they always know what comes next and feel deeply safe.</p>
+      <div class="rotation-grid">
+        <div class="rot-card"><span class="rot-icon">🌅</span><h3>Morning Welcome</h3><p>Greeting ritual, morning song, self-directed free choice work.</p><div class="rot-time">8:00 – 9:00 AM</div></div>
+        <div class="rot-card"><span class="rot-icon">⭕</span><h3>Circle Time</h3><p>Songs, stories, movement, and the day's theme introduction.</p><div class="rot-time">9:00 – 9:30 AM</div></div>
+        <div class="rot-card"><span class="rot-icon">🏺</span><h3>Work Rotation</h3><p>Guided centers: sensorial, art, practical life, language, nature.</p><div class="rot-time">9:30 – 11:00 AM</div></div>
+        <div class="rot-card"><span class="rot-icon">🌿</span><h3>Outdoor & Movement</h3><p>Nature play, big body movement, gardening, fresh air — always.</p><div class="rot-time">11:00 AM – 12:00 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">🥦</span><h3>Snack Time</h3><p>In-house healthy snack. Children help prepare and serve.</p><div class="rot-time">12:00 – 1:00 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">😴</span><h3>Rest & Quiet</h3><p>Nap for little ones. Calm quiet activities for those who don't.</p><div class="rot-time">1:00 – 2:30 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">🎨</span><h3>Afternoon Enrichment</h3><p>Deep project, art, music, cooking, or farm activity.</p><div class="rot-time">2:30 – 4:30 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">🏡</span><h3>Village Wind Down</h3><p>Story time, tidy up together, daily recap for families.</p><div class="rot-time">4:30 – 6:00 PM</div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════════════════
+     FARM SCHOOL (Ages 4–7)
+═══════════════════════════════ -->
+<div class="prog-page" id="prog-farm">
+
+  <!-- FARM INTRO -->
+  <section class="wrap terra-bg">
+    <div class="section-inner">
+      <p class="s-eye" style="color:var(--terra);">Farm School · Ages 4–7</p>
+      <h2 class="s-head">Where the classroom<br><em>meets the earth.</em></h2>
+      <p class="s-sub">A 35-week, full-spectrum school program rooted in farm-to-table living, STEAM discovery, bilingual immersion, and the belief that children learn best when they are outside, moving, building, and growing something real.</p>
+      <div class="farm-grid">
+        <div class="farm-card"><span class="icon">🌾</span><h3>Farm-to-Table</h3><p>Children plant, tend, harvest, and cook real food. Science, nutrition, and life skills in one beautiful daily lesson.</p></div>
+        <div class="farm-card"><span class="icon">🔬</span><h3>STEAM Learning</h3><p>Science, technology, engineering, art, and math — always hands-on, always real-world, always connected to the land around them.</p></div>
+        <div class="farm-card"><span class="icon">📚</span><h3>35-Week Curriculum</h3><p>Fully sequenced from Foundations to Graduation. Literacy, numeracy, social studies, SEL, arts — all differentiated for PreK and Kindergarten.</p></div>
+        <div class="farm-card"><span class="icon">🇲🇽</span><h3>Bilingual Daily</h3><p>Spanish and English woven into every week. Vocabulary, stories, songs, and conversation — two languages, one village.</p></div>
+        <div class="farm-card"><span class="icon">💛</span><h3>SEL Every Week</h3><p>Social-emotional learning is threaded through every unit. Feelings, cooperation, conflict resolution, and community responsibility — always.</p></div>
+        <div class="farm-card"><span class="icon">🎓</span><h3>Week 35 Graduation</h3><p>Portfolio presentation, memory book, and a ceremony that celebrates a full year of becoming. Families gather. Good tears are guaranteed.</p></div>
+      </div>
+
+      <!-- EARLY ADMISSION NOTE -->
+      <div style="background:linear-gradient(135deg,var(--gold-pale),rgba(255,255,255,0.9));border-radius:16px;padding:24px 28px;margin-top:28px;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:flex-start;gap:16px;">
+        <span style="font-size:28px;flex-shrink:0;">✨</span>
+        <div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--green-deep);margin-bottom:6px;">Is Your 3-Year-Old Ready?</h3>
+          <p style="font-size:13px;color:var(--mid);line-height:1.75;font-weight:300;">It is possible to get your 3-year-old into our Farm School program — if the child is showing readiness. This is a personal conversation, not a form. Speak directly with <strong style="color:var(--green-deep);">Skye Parapat</strong>, your liaison, and she will assess your child's readiness together with you.</p>
+          <a href="sms:+17209795132" style="display:inline-flex;align-items:center;gap:8px;background:var(--green-deep);color:var(--gold-pale);padding:10px 20px;border-radius:30px;font-size:12px;font-weight:600;text-decoration:none;margin-top:12px;transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">📱 Text Skye About Early Entry</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL 35-WEEK CURRICULUM -->
+  <section class="wrap white">
+    <div class="section-inner">
+      <p class="s-eye">Full 35-Week Farm School Curriculum</p>
+      <h2 class="s-head">Every week. Planned.<br><em>Purposeful. Powerful.</em></h2>
+      <p class="s-sub">Tap each unit to explore the weekly themes, PreK vs Kindergarten differentiation, hands-on activities, and Spanish vocabulary. All 35 weeks — all right here.</p>
+
+      <div class="unit-tabs">
+        <button class="unit-tab u1 active" onclick="showFarmUnit('1',event)">📚 Foundations</button>
+        <button class="unit-tab u2" onclick="showFarmUnit('2',event)">🔤 Literacy & Math</button>
+        <button class="unit-tab u3" onclick="showFarmUnit('3',event)">🏘️ Community</button>
+        <button class="unit-tab u4" onclick="showFarmUnit('4',event)">🌿 Earth & Nature</button>
+        <button class="unit-tab u5" onclick="showFarmUnit('5',event)">📖 Reading & Stories</button>
+        <button class="unit-tab u6" onclick="showFarmUnit('6',event)">🔢 Numbers & Measure</button>
+        <button class="unit-tab u7" onclick="showFarmUnit('7',event)">🎨 Culture & Graduation</button>
+      </div>
+
+      <!-- UNIT 1 -->
+      <div class="unit-panel active" id="farm-unit-1">
+        <div class="unit-header" style="background:linear-gradient(135deg,#EAF4FB,#F0F7EE);border:1px solid rgba(74,127,165,0.2);">
+          <div class="unit-icon-big">📚</div>
+          <div><span class="weeks-badge" style="background:#4A7FA5;">Weeks 1–4</span><h2>Foundations & Routines</h2><p>Identity, family, classroom community, and feelings. We build the emotional foundation everything else grows from before we touch academics.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #4A7FA5;"><div class="wk-num" style="color:#4A7FA5;">Week 1</div><h3>Classroom & Self</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Oral language, introductions, school phrases</div><div class="wk-level"><strong>PK:</strong> Name recognition, routines, belongings</div></div><div class="wk-tags"><span class="wk-tag tag-sel">SEL: Expressing needs</span><span class="wk-tag tag-art">All About Me collage</span><span class="wk-tag tag-spanish">Me llamo ___</span></div></div>
+          <div class="wk" style="border-top:3px solid #4A7FA5;"><div class="wk-num" style="color:#4A7FA5;">Week 2</div><h3>My Family & Home</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Family traditions & roles</div><div class="wk-level"><strong>PK:</strong> Identify family members</div></div><div class="wk-tags"><span class="wk-tag tag-art">Draw your family</span><span class="wk-tag tag-spanish">mamá, papá, hermana, hermano</span></div></div>
+          <div class="wk" style="border-top:3px solid #4A7FA5;"><div class="wk-num" style="color:#4A7FA5;">Week 3</div><h3>Community & Rules</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Why rules exist & classroom democracy</div><div class="wk-level"><strong>PK:</strong> Following 1–2 step instructions</div></div><div class="wk-tags"><span class="wk-tag tag-sel">SEL: Cooperation</span><span class="wk-tag tag-hands">Town hall dramatic play</span></div></div>
+          <div class="wk" style="border-top:3px solid #4A7FA5;"><div class="wk-num" style="color:#4A7FA5;">Week 4</div><h3>Friendship & Emotions</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Emotions in self & others</div><div class="wk-level"><strong>PK:</strong> Emotional labeling</div></div><div class="wk-tags"><span class="wk-tag tag-hands">Emotion cards</span><span class="wk-tag tag-spanish">feliz, triste, enojado, cansado</span></div></div>
+        </div>
+        <div class="unit-note" style="background:rgba(74,127,165,0.08);border:1px solid rgba(74,127,165,0.18);"><div class="ni">💛</div><p style="color:#4A7FA5;"><strong>We build the village before we build the academics.</strong> Children who feel safe and known learn everything else more easily. This is not soft — this is science.</p></div>
+      </div>
+
+      <!-- UNIT 2 -->
+      <div class="unit-panel" id="farm-unit-2">
+        <div class="unit-header" style="background:linear-gradient(135deg,#FDF0EB,#F5EDD5);border:1px solid rgba(196,130,106,0.2);">
+          <div class="unit-icon-big">🔤</div>
+          <div><span class="weeks-badge" style="background:#C4826A;">Weeks 5–9</span><h2>Early Literacy + Number Sense</h2><p>Letters, sounds, words, shapes, patterns — foundational academics through Montessori materials, movement, and hands-on discovery.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #C4826A;"><div class="wk-num" style="color:#C4826A;">Week 5</div><h3>Letters & Sounds 1</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Phonics & decoding</div><div class="wk-level"><strong>PK:</strong> Capital letter recognition</div></div><div class="wk-tags"><span class="wk-tag tag-hands">Letter tracers</span><span class="wk-tag tag-stem">Sandpaper letters</span></div></div>
+          <div class="wk" style="border-top:3px solid #C4826A;"><div class="wk-num" style="color:#C4826A;">Week 6</div><h3>Letters & Sounds 2</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> CVC words (cat, dog, sun)</div><div class="wk-level"><strong>PK:</strong> Pre-writing strokes</div></div><div class="wk-tags"><span class="wk-tag tag-hands">Word building with objects</span></div></div>
+          <div class="wk" style="border-top:3px solid #C4826A;"><div class="wk-num" style="color:#C4826A;">Week 7</div><h3>Numbers 0–10</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Counting to 20 forwards & backwards</div><div class="wk-level"><strong>PK:</strong> 1-to-1 object counting</div></div><div class="wk-tags"><span class="wk-tag tag-stem">Montessori bead chains</span><span class="wk-tag tag-farm">Count seeds from garden</span></div></div>
+          <div class="wk" style="border-top:3px solid #C4826A;"><div class="wk-num" style="color:#C4826A;">Week 8</div><h3>Shapes & Spatial Awareness</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> 2D shapes — sides & vertices</div><div class="wk-level"><strong>PK:</strong> Circle, square, triangle</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Shape hunt in nature</span><span class="wk-tag tag-art">Shape collage</span></div></div>
+          <div class="wk" style="border-top:3px solid #C4826A;"><div class="wk-num" style="color:#C4826A;">Week 9</div><h3>Patterns & Sequencing</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> AB, ABB, AAB, ABC patterns</div></div><div class="wk-tags"><span class="wk-tag tag-stem">Montessori beads</span><span class="wk-tag tag-farm">Nature pattern walks</span></div></div>
+        </div>
+        <div class="unit-note" style="background:rgba(196,130,106,0.08);border:1px solid rgba(196,130,106,0.18);"><div class="ni">🏺</div><p style="color:#C4826A;"><strong>Montessori materials are central.</strong> Sandpaper letters, bead chains — children learn to read and count by touching and building. The hands learn first, always.</p></div>
+      </div>
+
+      <!-- UNIT 3 -->
+      <div class="unit-panel" id="farm-unit-3">
+        <div class="unit-header" style="background:linear-gradient(135deg,#F0F7EE,#F5EDD5);border:1px solid rgba(122,174,120,0.25);">
+          <div class="unit-icon-big">🏘️</div>
+          <div><span class="weeks-badge" style="background:#7AAE78;">Weeks 10–14</span><h2>Community, Jobs & Responsibility</h2><p>Community helpers, needs vs wants, safety, transportation, and technology — children explore their role as caring, responsible citizens.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #7AAE78;"><div class="wk-num" style="color:#7AAE78;">Week 10</div><h3>Community Helpers</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Police, firefighters, nurses, teachers, mail carriers</div></div><div class="wk-tags"><span class="wk-tag tag-hands">Dramatic play dress-up</span><span class="wk-tag tag-farm">Farm workers too!</span></div></div>
+          <div class="wk" style="border-top:3px solid #7AAE78;"><div class="wk-num" style="color:#7AAE78;">Week 11</div><h3>Needs vs. Wants</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Food & shelter vs. toys & candy</div></div><div class="wk-tags"><span class="wk-tag tag-sel">SEL: Gratitude</span><span class="wk-tag tag-farm">Growing our own food = need met!</span></div></div>
+          <div class="wk" style="border-top:3px solid #7AAE78;"><div class="wk-num" style="color:#7AAE78;">Week 12</div><h3>Safety Skills</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Emergencies · Who to trust · Farm safety</div></div><div class="wk-tags"><span class="wk-tag tag-hands">911 role play</span><span class="wk-tag tag-farm">Safe tool handling</span></div></div>
+          <div class="wk" style="border-top:3px solid #7AAE78;"><div class="wk-num" style="color:#7AAE78;">Week 13</div><h3>Transportation & Maps</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Directional words</div><div class="wk-level"><strong>PK:</strong> Walk vs drive vs fly</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Map our farm</span><span class="wk-tag tag-stem">STEM: build a road</span></div></div>
+          <div class="wk" style="border-top:3px solid #7AAE78;"><div class="wk-num" style="color:#7AAE78;">Week 14</div><h3>Technology & Tools</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Real vs imaginary tech · Responsible use</div></div><div class="wk-tags"><span class="wk-tag tag-stem">Coding intro</span><span class="wk-tag tag-farm">Farm tools vs digital tools</span></div></div>
+        </div>
+        <div class="unit-note" style="background:rgba(122,174,120,0.08);border:1px solid rgba(122,174,120,0.2);"><div class="ni">🌿</div><p style="color:var(--green);"><strong>The farm makes community real.</strong> When children grow food, they understand needs. When they use tools safely, they understand responsibility. The land teaches what no worksheet can.</p></div>
+      </div>
+
+      <!-- UNIT 4 -->
+      <div class="unit-panel" id="farm-unit-4">
+        <div class="unit-header" style="background:linear-gradient(135deg,var(--green-pale),#EAF4FB);border:1px solid rgba(42,82,40,0.2);">
+          <div class="unit-icon-big">🌿</div>
+          <div><span class="weeks-badge" style="background:#2A5228;">Weeks 15–19</span><h2>Nature & Earth Science</h2><p>Weather, seasons, rocks, soil, animals, and plants. Week 19 — planting real seeds — is the heart of Farm School. Children are scientists from day one.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #2A5228;"><div class="wk-num" style="color:#2A5228;">Week 15</div><h3>Weather & Seasons</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Weather chart · Clothing choices · How seasons affect the farm</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Farm weather journal</span><span class="wk-tag tag-stem">Science observation</span></div></div>
+          <div class="wk" style="border-top:3px solid #2A5228;"><div class="wk-num" style="color:#2A5228;">Week 16</div><h3>Day & Night</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Sun & moon · Shadows · Time & farming rhythms</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Shadow tracking outdoors</span></div></div>
+          <div class="wk" style="border-top:3px solid #2A5228;"><div class="wk-num" style="color:#2A5228;">Week 17</div><h3>Rocks, Soil & Water</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Soil types · Why soil matters for growing</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Soil sensory exploration</span><span class="wk-tag tag-stem">What makes good soil?</span></div></div>
+          <div class="wk" style="border-top:3px solid #2A5228;"><div class="wk-num" style="color:#2A5228;">Week 18</div><h3>Animals & Habitats</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Farm · Forest · Ocean · Desert · Farm animals up close</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Farm animal care</span><span class="wk-tag tag-spanish">animales de la granja</span></div></div>
+          <div class="wk" style="border-top:3px solid var(--gold);">
+            <div class="wk-num" style="color:var(--gold-warm);">Week 19 🌱</div>
+            <h3>Plants & Growing — Farm School Week</h3>
+            <div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Seeds · Life cycles · We plant real crops</div></div>
+            <div class="wk-tags"><span class="wk-tag tag-farm">Plant seeds in our garden</span><span class="wk-tag tag-farm">Track growth daily</span><span class="wk-tag tag-spanish">semilla, planta, fruta</span></div>
+          </div>
+        </div>
+        <div class="unit-note" style="background:rgba(42,82,40,0.07);border:1px solid rgba(42,82,40,0.15);"><div class="ni">🌾</div><p style="color:var(--green-deep);"><strong>Week 19 is the heart of Farm School.</strong> Children plant real seeds in real soil. They water them, watch them, and eventually eat what they grow. This is science, nutrition, life skills, and pride — all in one.</p></div>
+      </div>
+
+      <!-- UNIT 5 -->
+      <div class="unit-panel" id="farm-unit-5">
+        <div class="unit-header" style="background:linear-gradient(135deg,#FDF7E8,#F5EDD5);border:1px solid rgba(201,168,76,0.25);">
+          <div class="unit-icon-big">📖</div>
+          <div><span class="weeks-badge" style="background:#C9A84C;color:var(--green-deep);">Weeks 20–24</span><h2>Reading & Storytelling</h2><p>Story elements, fairy tales, non-fiction, author studies, and the legendary Week 24 — where every child creates and performs their own story for the village.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #C9A84C;"><div class="wk-num" style="color:var(--gold-warm);">Week 20</div><h3>Story Elements</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Character · Setting · Beginning-Middle-End</div></div><div class="wk-tags"><span class="wk-tag tag-hands">Story mapping</span><span class="wk-tag tag-art">Illustrate a scene</span></div></div>
+          <div class="wk" style="border-top:3px solid #C9A84C;"><div class="wk-num" style="color:var(--gold-warm);">Week 21</div><h3>Fairy Tales & Folklore</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Royalty stories · Morals & lessons</div></div><div class="wk-tags"><span class="wk-tag tag-art">Puppet theatre</span><span class="wk-tag tag-hands">Crown & castle craft</span></div></div>
+          <div class="wk" style="border-top:3px solid #C9A84C;"><div class="wk-num" style="color:var(--gold-warm);">Week 22</div><h3>Informational Texts</h3><div class="wk-levels"><div class="wk-level"><strong>K:</strong> Non-fiction vs fiction</div><div class="wk-level"><strong>PK:</strong> Real vs make-believe</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Research a farm animal</span></div></div>
+          <div class="wk" style="border-top:3px solid #C9A84C;"><div class="wk-num" style="color:var(--gold-warm);">Week 23</div><h3>Author & Illustrator Study</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Who makes stories & pictures</div></div><div class="wk-tags"><span class="wk-tag tag-art">Design your own book cover</span></div></div>
+          <div class="wk" style="border-top:3px solid var(--gold);background:linear-gradient(135deg,rgba(240,230,192,0.3),var(--white));"><div class="wk-num" style="color:var(--gold-warm);">Week 24 ✨</div><h3>Build-a-Story Week</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Create AND perform your own story</div></div><div class="wk-tags"><span class="wk-tag" style="background:rgba(201,168,76,0.2);color:var(--gold-warm);">Family showcase</span><span class="wk-tag tag-sel">Pride & confidence</span></div></div>
+        </div>
+        <div class="unit-note" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);"><div class="ni">⭐</div><p style="color:var(--gold-warm);"><strong>Week 24 is pure magic.</strong> Every child stands up and performs the story they created. Families are invited. The pride in that room is something you never forget.</p></div>
+      </div>
+
+      <!-- UNIT 6 -->
+      <div class="unit-panel" id="farm-unit-6">
+        <div class="unit-header" style="background:linear-gradient(135deg,#EAE0F5,#EAF4FB);border:1px solid rgba(139,107,158,0.2);">
+          <div class="unit-icon-big">🔢</div>
+          <div><span class="weeks-badge" style="background:#8B6B9E;">Weeks 25–29</span><h2>Numbers, Money & Measurement</h2><p>Double digits, addition and subtraction with manipulatives, measurement, money, and real data. Math is never abstract — it is always in your hands.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #8B6B9E;"><div class="wk-num" style="color:#8B6B9E;">Week 25</div><h3>Numbers 10–20</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Teen numbers, place value intro</div></div><div class="wk-tags"><span class="wk-tag tag-stem">Montessori tens beads</span><span class="wk-tag tag-farm">Count harvested crops</span></div></div>
+          <div class="wk" style="border-top:3px solid #8B6B9E;"><div class="wk-num" style="color:#8B6B9E;">Week 26</div><h3>Addition & Subtraction</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Concrete manipulatives first — always</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Farm market math</span><span class="wk-tag tag-hands">Counting bears & cubes</span></div></div>
+          <div class="wk" style="border-top:3px solid #8B6B9E;"><div class="wk-num" style="color:#8B6B9E;">Week 27</div><h3>Measurement & Comparison</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Taller/shorter · Heavier/lighter</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Measure vegetables we grew</span><span class="wk-tag tag-hands">Cooking measurements</span></div></div>
+          <div class="wk" style="border-top:3px solid #8B6B9E;"><div class="wk-num" style="color:#8B6B9E;">Week 28</div><h3>Money Awareness</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Penny, nickel, dime, quarter</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Village farm stand pretend store</span><span class="wk-tag tag-sel">Financial literacy begins</span></div></div>
+          <div class="wk" style="border-top:3px solid #8B6B9E;"><div class="wk-num" style="color:#8B6B9E;">Week 29</div><h3>Maps, Graphs & Data</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Sorting · Picture graphs · Data</div></div><div class="wk-tags"><span class="wk-tag tag-farm">Graph our crop growth</span><span class="wk-tag tag-hands">Class survey</span></div></div>
+        </div>
+        <div class="unit-note" style="background:rgba(139,107,158,0.07);border:1px solid rgba(139,107,158,0.18);"><div class="ni">🏪</div><p style="color:#6B4E8E;"><strong>The village farm stand in Week 28 is legendary.</strong> Children set prices for things they actually grew, make real purchases, and count change. Financial literacy at 4 and 5. That is Farm School.</p></div>
+      </div>
+
+      <!-- UNIT 7 -->
+      <div class="unit-panel" id="farm-unit-7">
+        <div class="unit-header" style="background:linear-gradient(135deg,#FDF0EB,#F0F7EE);border:1px solid rgba(184,145,58,0.2);">
+          <div class="unit-icon-big">🎨</div>
+          <div><span class="weeks-badge" style="background:#B8913A;">Weeks 30–35</span><h2>Expression, Culture & Graduation</h2><p>Music, art, theatre, cultural celebrations, family heritage, and the beautiful Week 35 — portfolios, memory books, and a ceremony your family will never forget.</p></div>
+        </div>
+        <div class="weeks-grid">
+          <div class="wk" style="border-top:3px solid #B8913A;"><div class="wk-num" style="color:#B8913A;">Week 30</div><h3>Music & Rhythm</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Tempo · Beat · Movement & dance</div></div><div class="wk-tags"><span class="wk-tag tag-art">Instrument making</span><span class="wk-tag tag-farm">Nature percussion</span></div></div>
+          <div class="wk" style="border-top:3px solid #B8913A;"><div class="wk-num" style="color:#B8913A;">Week 31</div><h3>Art & Color Theory</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Mixing colors · Texture · Expression</div></div><div class="wk-tags"><span class="wk-tag tag-art">Natural dyes from the farm</span><span class="wk-tag tag-hands">Watercolor & collage</span></div></div>
+          <div class="wk" style="border-top:3px solid #B8913A;"><div class="wk-num" style="color:#B8913A;">Week 32</div><h3>Theatre & Dramatic Play</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Imagination · Confidence · Acting</div></div><div class="wk-tags"><span class="wk-tag tag-art">Mini farm show</span><span class="wk-tag tag-sel">Confidence & voice</span></div></div>
+          <div class="wk" style="border-top:3px solid #B8913A;"><div class="wk-num" style="color:#B8913A;">Week 33</div><h3>Our Cultures & Differences</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Food · Clothing · Words · Art from many cultures</div></div><div class="wk-tags"><span class="wk-tag tag-spanish">Spanish & home languages</span><span class="wk-tag tag-farm">Cultural cooking from the farm</span></div></div>
+          <div class="wk" style="border-top:3px solid #B8913A;"><div class="wk-num" style="color:#B8913A;">Week 34</div><h3>Family Traditions & Heritage</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Show & tell · Story sharing · Heritage</div></div><div class="wk-tags"><span class="wk-tag tag-hands">Family heritage project</span><span class="wk-tag tag-sel">Identity & pride</span></div></div>
+          <div class="wk" style="border-top:3px solid var(--gold);background:linear-gradient(135deg,rgba(240,230,192,0.3),var(--white));"><div class="wk-num" style="color:var(--gold-warm);">Week 35 🎓</div><h3>Farm School Graduation</h3><div class="wk-levels"><div class="wk-level"><strong>Both:</strong> Portfolio · Memory book · Graduation ceremony</div></div><div class="wk-tags"><span class="wk-tag" style="background:rgba(201,168,76,0.2);color:var(--gold-warm);">🎓 Ceremony with families</span><span class="wk-tag tag-farm">Farm harvest celebration</span><span class="wk-tag tag-sel">A year of becoming</span></div></div>
+        </div>
+        <div class="unit-note" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);"><div class="ni">🎓</div><p style="color:var(--gold-warm);"><strong>Week 35 graduation is a harvest celebration.</strong> Children present their year's work, share what they grew, and receive their portfolio. Families gather around the farm table. Good tears are guaranteed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAILY RHYTHM FARM -->
+  <section class="wrap dark">
+    <div class="section-inner">
+      <p class="s-eye lt">Farm School Daily Rhythm</p>
+      <h2 class="s-head lt">Every day rooted.<br><em>Every day reaching.</em></h2>
+      <p class="s-sub lt">Farm School days begin outdoors and end with full hearts. The rhythm of the land shapes the rhythm of the day.</p>
+      <div class="rotation-grid">
+        <div class="rot-card"><span class="rot-icon">🌅</span><h3>Farm Morning</h3><p>Check on the garden, greet the animals, morning circle time outside.</p><div class="rot-time">8:00 – 9:00 AM</div></div>
+        <div class="rot-card"><span class="rot-icon">⭕</span><h3>Circle & Curriculum</h3><p>Songs, calendar, weather, and today's learning theme introduction.</p><div class="rot-time">9:00 – 9:30 AM</div></div>
+        <div class="rot-card"><span class="rot-icon">🏺</span><h3>Work Rotation</h3><p>Guided centers: literacy, math, science, art, practical life.</p><div class="rot-time">9:30 – 11:00 AM</div></div>
+        <div class="rot-card"><span class="rot-icon">🌾</span><h3>Farm Time</h3><p>Planting, watering, harvesting, composting — real work on the land.</p><div class="rot-time">11:00 AM – 12:00 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">🥦</span><h3>Farm-to-Table Meal</h3><p>Children help prepare and serve what they grew. Real food, every day.</p><div class="rot-time">12:00 – 1:00 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">😴</span><h3>Rest & Quiet</h3><p>Rest or calm independent reading and quiet activities.</p><div class="rot-time">1:00 – 2:30 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">🎨</span><h3>Project & Enrichment</h3><p>Deep weekly project work, art, music, coding, or cultural exploration.</p><div class="rot-time">2:30 – 4:30 PM</div></div>
+        <div class="rot-card"><span class="rot-icon">🏡</span><h3>Village Wind Down</h3><p>Story, tidy the farm together, daily family recap.</p><div class="rot-time">4:30 – 6:00 PM</div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════════════════
+     COMING SOON — OLDER STUDENTS
+═══════════════════════════════ -->
+<section class="waitlist-section">
+  <div class="waitlist-inner">
+    <span class="waitlist-badge">Coming Soon ✨</span>
+    <h2 class="waitlist-title">Programs for<br><em>Older Students.</em></h2>
+    <p class="waitlist-sub">You are raising someone remarkable. Our village is growing to meet them — wherever they are. Join the waitlist and be the first to know when these programs open.</p>
+    <div class="waitlist-programs">
+      <div class="wl-prog"><span class="icon">📐</span><h4>Elementary</h4><p>Ages 7–10 · Coming soon</p></div>
+      <div class="wl-prog"><span class="icon">🔬</span><h4>STEAM Deep Dive</h4><p>Project-based · Coming soon</p></div>
+      <div class="wl-prog"><span class="icon">💻</span><h4>Coding & Tech</h4><p>Real skills · Coming soon</p></div>
+      <div class="wl-prog"><span class="icon">🌍</span><h4>Cultural Studies</h4><p>Global village · Coming soon</p></div>
+    </div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf5_aWd2nu4qUPhcM0tfuggEpXenz-DeMdDZvzofPkXdfx4ng/viewform" target="_blank" class="waitlist-btn">✨ Join the Waitlist</a>
+    <p class="waitlist-note">No commitment. Just your name and a dream for your child.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-footer">
+  <div class="cta-inner">
+    <span class="cta-badge">🌿 Now Enrolling · Both Programs</span>
+    <h2 class="cta-title">Your child's<br><em>village is ready.</em></h2>
+    <p class="cta-sub">Toddler Village (ages 1–3) and Farm School (ages 4–7) — both enrolling now. Text Skye and let's find the right program for your family.</p>
+    <div class="cta-btns">
+      <a href="sms:+17209795132" class="btn-gold">📱 Text Skye to Enroll</a>
+      <a href="mailto:Skyeparapat@gmail.com" style="background:transparent;color:var(--gold-pale);padding:15px 30px;border-radius:50px;font-size:13px;text-decoration:none;border:1px solid rgba(232,217,160,0.4);font-family:'DM Sans',sans-serif;display:inline-block;">✉️ Send an Email</a>
+    </div>
+    <div class="cta-contact">
+      <div><div class="cc-lbl">Call or Text</div><div class="cc-val">(720) 979-5132</div></div>
+      <div><div class="cc-lbl">Email</div><div class="cc-val">Skyeparapat@gmail.com</div></div>
+      <div><div class="cc-lbl">Location</div><div class="cc-val">Manvel · Rosharon, TX</div></div>
+    </div>
+    <p class="cta-foot">Legacies Learning Villages · Serenity's Academy Saves Motherhood · Community First</p>
+  </div>
+</section>
+</div>
+
+<script>
+function showProgram(id) {
+  document.querySelectorAll(".prog-page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".prog-btn").forEach(b => b.style.borderWidth = "2px");
+  const pg = document.getElementById("prog-" + id);
+  if (pg) {
+    pg.classList.add("active");
+    pg.scrollIntoView({behavior:"smooth", block:"start"});
+    setTimeout(() => window.scrollBy(0, -60), 400);
+  }
+  const btn = document.querySelector(".prog-btn." + id);
+  if (btn) btn.style.borderWidth = "3px";
+}
+function showToddlerAge(id, e) {
+  document.querySelectorAll("#prog-toddler .age-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll("#prog-toddler .age-tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("todd-" + id).classList.add("active");
+  e.target.classList.add("active");
+}
+function showFarmUnit(id, e) {
+  document.querySelectorAll("#prog-farm .unit-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll("#prog-farm .unit-tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("farm-unit-" + id).classList.add("active");
+  e.target.classList.add("active");
+}
+</script>
+</body>
+</html>
